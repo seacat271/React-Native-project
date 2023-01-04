@@ -4,9 +4,21 @@ export const RegistrationScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Регистрация</Text>
-      <TextInput style={styles.input} />
-      <TextInput style={styles.input} />
-      <TextInput style={styles.input} />
+      <TextInput
+        style={styles.input}
+        placeholderTextColor={"#BDBDBD"}
+        placeholder={"Логин"}
+      />
+      <TextInput
+        style={styles.input}
+        placeholderTextColor={"#BDBDBD"}
+        placeholder={"Aдрес електронной почты"}
+      />
+      <TextInput
+        style={styles.input}
+        placeholderTextColor={"#BDBDBD"}
+        placeholder={"Пароль"}
+      />
     </View>
   );
 };
@@ -34,5 +46,7 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     borderRadius: 8,
     marginBottom: 16,
+    color: "#212121",
+    fontSize: 16,
   },
 });
