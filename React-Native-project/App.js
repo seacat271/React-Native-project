@@ -1,11 +1,14 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
+const BcgImage = require("./assets/images/Photo-BG.jpg");
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Amazing. It's my first mobile App</Text>
-      <StatusBar style="auto" />
+      <ImageBackground
+        source={BcgImage}
+        style={styles.bcgImage}
+      ></ImageBackground>
     </View>
   );
 }
@@ -13,8 +16,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+  },
+  bcgImage: {
+    flex: 1,
     justifyContent: "center",
+    resizeMode: "cover",
   },
 });
