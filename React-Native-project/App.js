@@ -1,14 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { RegistrationScreen } from "./Screens/RegistrationScreen";
 const BcgImage = require("./assets/images/Photo-BG.jpg");
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={BcgImage}
-        style={styles.bcgImage}
-      ></ImageBackground>
+      <ImageBackground source={BcgImage} style={styles.bcgImage}>
+        <RegistrationScreen />
+      </ImageBackground>
     </View>
   );
 }
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   bcgImage: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     resizeMode: "cover",
   },
 });
