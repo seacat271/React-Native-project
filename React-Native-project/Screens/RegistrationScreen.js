@@ -48,5 +48,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: "#212121",
     fontSize: 16,
+    padding: 16,
   },
 });
