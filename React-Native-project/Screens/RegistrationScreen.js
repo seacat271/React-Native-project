@@ -60,6 +60,17 @@ const styles = StyleSheet.create({
     color: "#212121",
     fontSize: 16,
     padding: 16,
+    ...Platform.select({
+      ios: {
+        padding: 116,
+      },
+      android: {
+        padding: 16,
+      },
+      default: {
+        padding: 32,
+      },
+    }),
   },
   button: {
     alignItems: "center",
