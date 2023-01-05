@@ -1,6 +1,14 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 
 export const RegistrationScreen = () => {
+  console.log(Platform.OS);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Регистрация</Text>
@@ -19,6 +27,9 @@ export const RegistrationScreen = () => {
         placeholderTextColor={"#BDBDBD"}
         placeholder={"Пароль"}
       />
+      <TouchableOpacity style={styles.button} activeOpacity={0.7}>
+        <Text style={styles.buttonTitle}>Зарегистрироваться</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -49,5 +60,16 @@ const styles = StyleSheet.create({
     color: "#212121",
     fontSize: 16,
     padding: 16,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    borderRadius: 100,
+    backgroundColor: "#FF6C00",
+  },
+  buttonTitle: {
+    color: "#FFFFFF",
+    fontSize: 16,
   },
 });
