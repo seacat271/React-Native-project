@@ -8,17 +8,24 @@ import {
   Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
-const initialState = "";
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
 export const RegistrationScreen = ({
   isKeyboardShow,
   setIsKeyboardShow,
   keyboardHide,
 }) => {
-  const [login, setLogin] = useState(initialState);
-  const [email, setEmail] = useState(initialState);
-  const [password, setPassword] = useState(initialState);
-  console.log(isKeyboardShow);
+  const [state, setState] = useState(initialState);
+
+  const submitButton = () => {
+    console.log(state);
+    setState(initialState);
+  };
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -27,19 +34,32 @@ export const RegistrationScreen = ({
         >
           <Text style={styles.title}>Регистрация</Text>
           <TextInput
+            value={state.login}
             onFocus={() => setIsKeyboardShow(true)}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, login: value }))
+            }
             style={styles.input}
             placeholderTextColor={"#BDBDBD"}
             placeholder={"Логин"}
           />
           <TextInput
+            value={state.email}
             onFocus={() => setIsKeyboardShow(true)}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, email: value }))
+            }
             style={styles.input}
             placeholderTextColor={"#BDBDBD"}
             placeholder={"Aдрес електронной почты"}
           />
           <TextInput
+            secureTextEntry={true}
+            value={state.password}
             onFocus={() => setIsKeyboardShow(true)}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, password: value }))
+            }
             style={{ ...styles.input, marginBottom: isKeyboardShow ? 32 : 16 }}
             placeholderTextColor={"#BDBDBD"}
             placeholder={"Пароль"}
@@ -47,7 +67,11 @@ export const RegistrationScreen = ({
 
           {!isKeyboardShow && (
             <>
-              <TouchableOpacity style={styles.button} activeOpacity={0.7}>
+              <TouchableOpacity
+                style={styles.button}
+                activeOpacity={0.7}
+                onPress={submitButton}
+              >
                 <Text style={styles.buttonTitle}>Зарегистрироваться</Text>
               </TouchableOpacity>
               <Text style={styles.helper}>Уже есть аккаунт? Войти</Text>
