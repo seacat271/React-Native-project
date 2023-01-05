@@ -25,8 +25,8 @@ export const RegistrationScreen = ({
   keyboardHide,
 }) => {
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
-    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Medium": require("../assets/fonts/Roboto-Medium.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -47,7 +47,7 @@ export const RegistrationScreen = ({
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <Text style={styles.title}>Регистр ация</Text>
+          <Text style={styles.title}>Регистрация</Text>
           <TextInput
             value={state.login}
             onFocus={() => setIsKeyboardShow(true)}
@@ -109,11 +109,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   title: {
+    fontFamily: "Roboto-Medium",
     textAlign: "center",
     marginBottom: 32,
-    // fontWeight: 500,
     fontSize: 30,
-    // lineHeight: 1.17,
   },
   input: {
     height: 50,
@@ -124,6 +123,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: "#212121",
     fontSize: 16,
+    fontFamily: "Roboto-Regular",
     padding: 16,
     ...Platform.select({
       ios: {
@@ -148,11 +148,13 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: "#FFFFFF",
     fontSize: 16,
+    fontFamily: "Roboto-Regular",
   },
   helper: {
     textAlign: "center",
     color: "#1B4371",
     fontSize: 16,
+    fontFamily: "Roboto-Regular",
     marginBottom: 78,
   },
 });
