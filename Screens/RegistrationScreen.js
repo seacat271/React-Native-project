@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 import {
   View,
   Text,
@@ -10,16 +12,29 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+
 const initialState = {
   login: "",
   email: "",
   password: "",
 };
+SplashScreen.preventAutoHideAsync();
 export const RegistrationScreen = ({
   isKeyboardShow,
   setIsKeyboardShow,
   keyboardHide,
 }) => {
+  const [fontsLoaded] = useFonts({
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   const [state, setState] = useState(initialState);
 
   const submitButton = () => {
@@ -27,12 +42,12 @@ export const RegistrationScreen = ({
     setState(initialState);
   };
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={onLayoutRootView}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <Text style={styles.title}>Регистрация</Text>
+          <Text style={styles.title}>Регистр ация</Text>
           <TextInput
             value={state.login}
             onFocus={() => setIsKeyboardShow(true)}
