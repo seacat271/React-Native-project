@@ -7,8 +7,9 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 
 const initialState = {
@@ -16,27 +17,22 @@ const initialState = {
   email: "",
   password: "",
 };
-export const RegistrationScreen = ({
-  isKeyboardShow,
-  setIsKeyboardShow,
-  keyboardHide,
-}) => {
+export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
   const [state, setState] = useState(initialState);
-
+  console.log(ratio);
   const submitButton = () => {
     console.log(state);
     setState(initialState);
   };
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={keyboardHide}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <Text style={styles.title}>Регистрация</Text>
           <TextInput
             value={state.login}
-            onFocus={() => setIsKeyboardShow(true)}
             onChangeText={(value) =>
               setState((prevState) => ({ ...prevState, login: value }))
             }
@@ -46,7 +42,6 @@ export const RegistrationScreen = ({
           />
           <TextInput
             value={state.email}
-            onFocus={() => setIsKeyboardShow(true)}
             onChangeText={(value) =>
               setState((prevState) => ({ ...prevState, email: value }))
             }
@@ -57,7 +52,6 @@ export const RegistrationScreen = ({
           <TextInput
             secureTextEntry={true}
             value={state.password}
-            onFocus={() => setIsKeyboardShow(true)}
             onChangeText={(value) =>
               setState((prevState) => ({ ...prevState, password: value }))
             }
@@ -65,22 +59,25 @@ export const RegistrationScreen = ({
             placeholderTextColor={"#BDBDBD"}
             placeholder={"Пароль"}
           />
-
-          {!isKeyboardShow && (
-            <>
-              <TouchableOpacity
-                style={styles.button}
-                activeOpacity={0.7}
-                onPress={submitButton}
-              >
-                <Text style={styles.buttonTitle}>Зарегистрироваться</Text>
-              </TouchableOpacity>
-              <Text style={styles.helper}>Уже есть аккаунт? Войти</Text>
-            </>
-          )}
         </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </View>
+        {!isKeyboardShow && (
+          <>
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.7}
+              onPress={submitButton}
+            >
+              <Text style={styles.buttonTitle}>Зарегистрироваться</Text>
+            </TouchableOpacity>
+            <Text
+              style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 78 }}
+            >
+              Уже есть аккаунт? Войти
+            </Text>
+          </>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

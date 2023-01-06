@@ -21,7 +21,6 @@ export const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    height: 549,
     backgroundColor: "#ffffff",
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
