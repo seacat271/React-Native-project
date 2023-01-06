@@ -18,10 +18,13 @@ const initialState = {
 };
 export const LoginScreen = ({ isKeyboardShow, ratio }) => {
   const [state, setState] = useState(initialState);
-
+  const [hidePassword, setHidePassword] = useState(true);
   const submitButton = () => {
     console.log(state);
     setState(initialState);
+  };
+  const toggleHidePassword = () => {
+    setHidePassword((prevState) => !prevState);
   };
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -39,16 +42,30 @@ export const LoginScreen = ({ isKeyboardShow, ratio }) => {
             placeholderTextColor={"#BDBDBD"}
             placeholder={"Aдрес електронной почты"}
           />
-          <TextInput
-            secureTextEntry={true}
-            value={state.password}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, password: value }))
-            }
-            style={{ ...styles.input, marginBottom: isKeyboardShow ? 32 : 16 }}
-            placeholderTextColor={"#BDBDBD"}
-            placeholder={"Пароль"}
-          />
+          <View>
+            <TextInput
+              secureTextEntry={hidePassword}
+              value={state.password}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, password: value }))
+              }
+              style={{
+                ...styles.input,
+                marginBottom: isKeyboardShow ? 32 : 16,
+              }}
+              placeholderTextColor={"#BDBDBD"}
+              placeholder={"Пароль"}
+            />
+            <TouchableOpacity
+              style={styles.showBtn}
+              activeOpacity={0.7}
+              onPress={toggleHidePassword}
+            >
+              <Text style={styles.showBtnText}>
+                {hidePassword ? "Показать" : "Скрыть"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </KeyboardAvoidingView>
         {!isKeyboardShow && (
           <>
@@ -109,6 +126,19 @@ const styles = StyleSheet.create({
         padding: 32,
       },
     }),
+  },
+  showBtnThumb: {
+    position: "relative",
+  },
+  showBtn: {
+    position: "absolute",
+    top: 14,
+    right: 16,
+  },
+  showBtnText: {
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: "#1B4371",
   },
   button: {
     alignItems: "center",
