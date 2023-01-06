@@ -19,7 +19,7 @@ const initialState = {
 };
 export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
   const [state, setState] = useState(initialState);
-  console.log(ratio);
+
   const submitButton = () => {
     console.log(state);
     setState(initialState);
