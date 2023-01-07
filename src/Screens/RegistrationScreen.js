@@ -79,14 +79,17 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
         </KeyboardAvoidingView>
         {!isKeyboardShow && (
           <>
-            <submitButton />
-            <TouchableOpacity
+            <SubmitButton
+              title={"Зарегистрироваться"}
+              handleSubmit={submitButton}
+            />
+            {/* <TouchableOpacity
               style={styles.button}
               activeOpacity={0.7}
               onPress={submitButton}
             >
               <Text style={styles.buttonTitle}>Зарегистрироваться</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text
               style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 78 }}
             >
