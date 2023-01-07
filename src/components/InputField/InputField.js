@@ -1,17 +1,24 @@
 import { StyleSheet, View, Platform, TextInput } from "react-native";
 
-export const InputField = ({ placeholder, state, setState }) => {
+export const InputField = ({
+  name,
+  placeholder,
+  state,
+  setState,
+  children,
+}) => {
   return (
     <View>
       <TextInput
         value={state}
         onChangeText={(value) =>
-          setState((prevState) => ({ ...prevState, login: value }))
+          setState((prevState) => ({ ...prevState, name: value }))
         }
         style={styles.input}
         placeholderTextColor={"#BDBDBD"}
         placeholder={placeholder}
       />
+      {children}
     </View>
   );
 };

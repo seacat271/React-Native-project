@@ -36,19 +36,37 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
         >
           <Text style={styles.title}>Регистрация</Text>
           <InputField
+            name={"login"}
             placeholder={"Логин"}
             state={state.login}
             setState={setState}
           />
-          <TextInput
-            value={state.email}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, email: value }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#BDBDBD"}
+          <InputField
+            name={"email"}
             placeholder={"Aдрес електронной почты"}
+            state={state.email}
+            setState={setState}
           />
+          <InputField
+            name={"password"}
+            placeholder={"Пароль"}
+            state={state.password}
+            setState={setState}
+            secureTextEntry={hidePassword}
+            style={{
+              marginBottom: isKeyboardShow ? 32 : 16,
+            }}
+          >
+            <TouchableOpacity
+              style={styles.showBtn}
+              activeOpacity={0.7}
+              onPress={toggleHidePassword}
+            >
+              <Text style={styles.showBtnText}>
+                {hidePassword ? "Показать" : "Скрыть"}
+              </Text>
+            </TouchableOpacity>
+          </InputField>
           <View style={styles.showBtnThumb}>
             <TextInput
               secureTextEntry={hidePassword}
