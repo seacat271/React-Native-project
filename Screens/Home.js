@@ -1,3 +1,8 @@
+import { Text, View } from "react-native";
 export const Home = () => {
-  return;
+  return (
+    <View>
+      <Text>Home</Text>
+    </View>
+  );
 };

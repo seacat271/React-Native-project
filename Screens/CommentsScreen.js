@@ -1,3 +1,9 @@
+import { Text, View } from "react-native";
+
 export const CommentsScreen = () => {
-  return;
+  return (
+    <View>
+      <Text>CommentsScreen</Text>
+    </View>
+  );
 };
