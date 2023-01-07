@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { SubmitButton } from "../components/SubmitButton/SubmitButton";
 import {
   View,
   Text,
@@ -79,6 +79,7 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
         </KeyboardAvoidingView>
         {!isKeyboardShow && (
           <>
+            <submitButton />
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.7}
