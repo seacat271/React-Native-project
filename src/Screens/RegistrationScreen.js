@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SubmitButton } from "../components/SubmitButton/SubmitButton";
+import { InputField } from "../components/InputField/InputField";
 import {
   View,
   Text,
@@ -34,14 +35,10 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <Text style={styles.title}>Регистрация</Text>
-          <TextInput
-            value={state.login}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, login: value }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#BDBDBD"}
+          <InputField
             placeholder={"Логин"}
+            state={state.login}
+            setState={setState}
           />
           <TextInput
             value={state.email}
@@ -83,13 +80,6 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
               title={"Зарегистрироваться"}
               handleSubmit={submitButton}
             />
-            {/* <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.7}
-              onPress={submitButton}
-            >
-              <Text style={styles.buttonTitle}>Зарегистрироваться</Text>
-            </TouchableOpacity> */}
             <Text
               style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 78 }}
             >

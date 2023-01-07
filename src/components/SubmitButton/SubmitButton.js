@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
 export const SubmitButton = ({ title, activeOpacity = 0.7, handleSubmit }) => {
   return (
     <TouchableOpacity
