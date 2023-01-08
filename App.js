@@ -7,11 +7,13 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 import { RegistrationScreen } from "./src/Screens/RegistrationScreen";
 import { LoginScreen } from "./src/Screens/LoginScreen";
 const BcgImage = require("./assets/images/Photo-BG.jpg");
-
+const AuthStack = createStackNavigator();
 export default function App() {
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
   const initialRatio =
@@ -53,6 +55,13 @@ export default function App() {
         }}
       >
         <ImageBackground source={BcgImage} style={styles.bcgImage}>
+          <NavigationContainer>
+            <AuthStack.Screen
+              name="Registration"
+              component={RegistrationScreen}
+            />
+            <AuthStack.Screen name="login" component={LoginScreen} />
+          </NavigationContainer>
           <LoginScreen
             isKeyboardShow={isKeyboardShow}
             setIsKeyboardShow={setIsKeyboardShow}
