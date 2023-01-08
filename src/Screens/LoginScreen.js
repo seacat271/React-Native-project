@@ -18,14 +18,14 @@ const initialState = {
   email: "",
   password: "",
 };
-export const LoginScreen = ({ isKeyboardShow, navigation }) => {
-  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
+export const LoginScreen = ({ navigation }) => {
   const initialRatio =
     Dimensions.get("window").width / Dimensions.get("window").height;
   const [ratio, setRatio] = useState(initialRatio);
   const onChangeRatio = () => {
     setRatio(Dimensions.get("window").width / Dimensions.get("window").height);
   };
+  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
   useEffect(() => {
     const ratioListener = Dimensions.addEventListener("change", onChangeRatio);
     const keyboardDidShowListener = Keyboard.addListener(
@@ -43,7 +43,7 @@ export const LoginScreen = ({ isKeyboardShow, navigation }) => {
       ratioListener.remove();
     };
   }, []);
-  console.log(ratio);
+
   const [state, setState] = useState(initialState);
   const [hidePassword, setHidePassword] = useState(true);
   const submitButton = () => {

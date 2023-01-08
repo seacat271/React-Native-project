@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import { RegistrationScreen } from "./src/Screens/RegistrationScreen";
 import { LoginScreen } from "./src/Screens/LoginScreen";
-const BcgImage = require("./assets/images/Photo-BG.jpg");
+
 const AuthStack = createStackNavigator();
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -31,7 +31,6 @@ export default function App() {
           name="Registration"
           component={RegistrationScreen}
           options={{ headerShown: false }}
-          isKeyboardShow={isKeyboardShow}
         />
         <AuthStack.Screen
           name="Login"

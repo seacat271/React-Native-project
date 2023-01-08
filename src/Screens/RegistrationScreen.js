@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -19,7 +19,31 @@ const initialState = {
   email: "",
   password: "",
 };
-export const RegistrationScreen = ({ isKeyboardShow, ratio, navigation }) => {
+export const RegistrationScreen = ({ navigation }) => {
+  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
+  const initialRatio =
+    Dimensions.get("window").width / Dimensions.get("window").height;
+  const [ratio, setRatio] = useState(initialRatio);
+  const onChangeRatio = () => {
+    setRatio(Dimensions.get("window").width / Dimensions.get("window").height);
+  };
+  useEffect(() => {
+    const ratioListener = Dimensions.addEventListener("change", onChangeRatio);
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setIsKeyboardShow(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setIsKeyboardShow(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+      ratioListener.remove();
+    };
+  }, []);
   const [state, setState] = useState(initialState);
   const [hidePassword, setHidePassword] = useState(true);
   const submitButton = () => {
