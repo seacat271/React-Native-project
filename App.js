@@ -48,28 +48,12 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-        }}
-      >
-        <ImageBackground source={BcgImage} style={styles.bcgImage}>
-          <NavigationContainer>
-            <AuthStack.Screen
-              name="Registration"
-              component={RegistrationScreen}
-            />
-            <AuthStack.Screen name="login" component={LoginScreen} />
-          </NavigationContainer>
-          <LoginScreen
-            isKeyboardShow={isKeyboardShow}
-            setIsKeyboardShow={setIsKeyboardShow}
-            ratio={ratio}
-          />
-        </ImageBackground>
-      </TouchableWithoutFeedback>
-    </View>
+    <NavigationContainer>
+      <AuthStack.Navigator>
+        <AuthStack.Screen name="Registration" component={RegistrationScreen} />
+        <AuthStack.Screen name="login" component={LoginScreen} />
+      </AuthStack.Navigator>
+    </NavigationContainer>
   );
 }
 

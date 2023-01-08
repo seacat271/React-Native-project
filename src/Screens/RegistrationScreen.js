@@ -11,6 +11,7 @@ import {
 import { ToggleButton } from "../components/ToggleButton/ToggleButton";
 import { SubmitButton } from "../components/SubmitButton/SubmitButton";
 import { InputField } from "../components/InputField/InputField";
+import { BackgroundContainer } from "../components/BackgroundContainer/BackgroundContainer";
 
 const initialState = {
   login: "",
@@ -29,53 +30,55 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <Text style={styles.title}>Регистрация</Text>
-          <InputField
-            name={"login"}
-            placeholder={"Логин"}
-            state={state.login}
-            setState={setState}
-          />
-          <InputField
-            name={"email"}
-            placeholder={"Aдрес електронной почты"}
-            state={state.email}
-            setState={setState}
-          />
-          <InputField
-            name={"password"}
-            placeholder={"Пароль"}
-            state={state.password}
-            setState={setState}
-            secureTextEntry={hidePassword}
-            marginBottom={isKeyboardShow ? 32 : 16}
+    <BackgroundContainer>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <ToggleButton
-              toggleHidePassword={toggleHidePassword}
-              hidePassword={hidePassword}
+            <Text style={styles.title}>Регистрация</Text>
+            <InputField
+              name={"login"}
+              placeholder={"Логин"}
+              state={state.login}
+              setState={setState}
             />
-          </InputField>
-        </KeyboardAvoidingView>
-        {!isKeyboardShow && (
-          <>
-            <SubmitButton
-              title={"Зарегистрироваться"}
-              handleSubmit={submitButton}
+            <InputField
+              name={"email"}
+              placeholder={"Aдрес електронной почты"}
+              state={state.email}
+              setState={setState}
             />
-            <Text
-              style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 78 }}
+            <InputField
+              name={"password"}
+              placeholder={"Пароль"}
+              state={state.password}
+              setState={setState}
+              secureTextEntry={hidePassword}
+              marginBottom={isKeyboardShow ? 32 : 16}
             >
-              Уже есть аккаунт? Войти
-            </Text>
-          </>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+              <ToggleButton
+                toggleHidePassword={toggleHidePassword}
+                hidePassword={hidePassword}
+              />
+            </InputField>
+          </KeyboardAvoidingView>
+          {!isKeyboardShow && (
+            <>
+              <SubmitButton
+                title={"Зарегистрироваться"}
+                handleSubmit={submitButton}
+              />
+              <Text
+                style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 78 }}
+              >
+                Уже есть аккаунт? Войти
+              </Text>
+            </>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+    </BackgroundContainer>
   );
 };
 const styles = StyleSheet.create({
