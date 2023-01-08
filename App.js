@@ -1,12 +1,5 @@
 import { useFonts } from "expo-font";
-import {
-  StyleSheet,
-  Dimensions,
-  View,
-  ImageBackground,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { RegistrationScreen } from "./src/Screens/RegistrationScreen";

@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
-  Button,
+  Dimensions,
 } from "react-native";
 import { ToggleButton } from "../components/ToggleButton/ToggleButton";
 import { SubmitButton } from "../components/SubmitButton/SubmitButton";
