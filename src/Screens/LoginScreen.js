@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   View,
@@ -12,11 +12,38 @@ import {
 import { ToggleButton } from "../components/ToggleButton/ToggleButton";
 import { SubmitButton } from "../components/SubmitButton/SubmitButton";
 import { InputField } from "../components/InputField/InputField";
+import { BackgroundContainer } from "../components/BackgroundContainer/BackgroundContainer";
+import { LinkButton } from "../components/LinkButton/LinkButton";
 const initialState = {
   email: "",
   password: "",
 };
-export const LoginScreen = ({ isKeyboardShow, ratio }) => {
+export const LoginScreen = ({ isKeyboardShow, navigation }) => {
+  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
+  const initialRatio =
+    Dimensions.get("window").width / Dimensions.get("window").height;
+  const [ratio, setRatio] = useState(initialRatio);
+  const onChangeRatio = () => {
+    setRatio(Dimensions.get("window").width / Dimensions.get("window").height);
+  };
+  useEffect(() => {
+    const ratioListener = Dimensions.addEventListener("change", onChangeRatio);
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setIsKeyboardShow(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setIsKeyboardShow(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+      ratioListener.remove();
+    };
+  }, []);
+  console.log(ratio);
   const [state, setState] = useState(initialState);
   const [hidePassword, setHidePassword] = useState(true);
   const submitButton = () => {
@@ -27,44 +54,46 @@ export const LoginScreen = ({ isKeyboardShow, ratio }) => {
     setHidePassword((prevState) => !prevState);
   };
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <Text style={styles.title}>Войти</Text>
-          <InputField
-            name={"email"}
-            placeholder={"Aдрес електронной почты"}
-            state={state.email}
-            setState={setState}
-          />
-          <InputField
-            name={"password"}
-            placeholder={"Пароль"}
-            state={state.password}
-            setState={setState}
-            secureTextEntry={hidePassword}
-            marginBottom={isKeyboardShow ? 32 : 16}
+    <BackgroundContainer>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <ToggleButton
-              toggleHidePassword={toggleHidePassword}
-              hidePassword={hidePassword}
+            <Text style={styles.title}>Войти</Text>
+            <InputField
+              name={"email"}
+              placeholder={"Aдрес електронной почты"}
+              state={state.email}
+              setState={setState}
             />
-          </InputField>
-        </KeyboardAvoidingView>
-        {!isKeyboardShow && (
-          <>
-            <SubmitButton title={"Войти"} handleSubmit={submitButton} />
-            <Text
-              style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 144 }}
+            <InputField
+              name={"password"}
+              placeholder={"Пароль"}
+              state={state.password}
+              setState={setState}
+              secureTextEntry={hidePassword}
+              marginBottom={isKeyboardShow ? 32 : 16}
             >
-              Нет аккаунта? Зарегистрироваться
-            </Text>
-          </>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+              <ToggleButton
+                toggleFunction={toggleHidePassword}
+                toggleFlag={hidePassword}
+              />
+            </InputField>
+          </KeyboardAvoidingView>
+          {!isKeyboardShow && (
+            <>
+              <SubmitButton title={"Войти"} handleSubmit={submitButton} />
+              <LinkButton
+                onPressFunction={() => navigation.navigate("Registration")}
+                title={"Нет аккаунта? Зарегистрироваться"}
+                marginBottom={ratio > 1 ? 18 : 144}
+              />
+            </>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+    </BackgroundContainer>
   );
 };
 
@@ -82,12 +111,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 32,
     fontSize: 30,
-  },
-  helper: {
-    textAlign: "center",
-    color: "#1B4371",
-    fontSize: 16,
-    fontFamily: "Roboto-Regular",
-    marginBottom: 78,
   },
 });

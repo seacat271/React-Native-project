@@ -7,18 +7,19 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
+  Button,
 } from "react-native";
 import { ToggleButton } from "../components/ToggleButton/ToggleButton";
 import { SubmitButton } from "../components/SubmitButton/SubmitButton";
 import { InputField } from "../components/InputField/InputField";
 import { BackgroundContainer } from "../components/BackgroundContainer/BackgroundContainer";
-
+import { LinkButton } from "../components/LinkButton/LinkButton";
 const initialState = {
   login: "",
   email: "",
   password: "",
 };
-export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
+export const RegistrationScreen = ({ isKeyboardShow, ratio, navigation }) => {
   const [state, setState] = useState(initialState);
   const [hidePassword, setHidePassword] = useState(true);
   const submitButton = () => {
@@ -58,8 +59,8 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
               marginBottom={isKeyboardShow ? 32 : 16}
             >
               <ToggleButton
-                toggleHidePassword={toggleHidePassword}
-                hidePassword={hidePassword}
+                toggleFunction={toggleHidePassword}
+                toggleFlag={hidePassword}
               />
             </InputField>
           </KeyboardAvoidingView>
@@ -69,11 +70,11 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
                 title={"Зарегистрироваться"}
                 handleSubmit={submitButton}
               />
-              <Text
-                style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 78 }}
-              >
-                Уже есть аккаунт? Войти
-              </Text>
+              <LinkButton
+                onPressFunction={() => navigation.navigate("Login")}
+                title={"Уже есть аккаунт? Войти"}
+                marginBottom={ratio > 1 ? 18 : 78}
+              />
             </>
           )}
         </View>
@@ -95,12 +96,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 32,
     fontSize: 30,
-  },
-  helper: {
-    textAlign: "center",
-    color: "#1B4371",
-    fontSize: 16,
-    fontFamily: "Roboto-Regular",
-    marginBottom: 78,
   },
 });

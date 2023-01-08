@@ -1,18 +1,18 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
 export const ToggleButton = ({
-  toggleHidePassword,
-  hidePassword,
+  toggleFunction,
+  toggleFlag,
   activeOpacity = 0.7,
 }) => {
   return (
     <TouchableOpacity
       style={styles.showBtn}
       activeOpacity={activeOpacity}
-      onPress={toggleHidePassword}
+      onPress={toggleFunction}
     >
       <Text style={styles.showBtnText}>
-        {hidePassword ? "Показать" : "Скрыть"}
+        {toggleFlag ? "Показать" : "Скрыть"}
       </Text>
     </TouchableOpacity>
   );
