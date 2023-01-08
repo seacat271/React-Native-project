@@ -12,6 +12,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
+import { ToggleButton } from "../components/ToggleButton/ToggleButton";
 
 const initialState = {
   login: "",
@@ -28,6 +29,7 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
   const toggleHidePassword = () => {
     setHidePassword((prevState) => !prevState);
   };
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -53,44 +55,13 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
             state={state.password}
             setState={setState}
             secureTextEntry={hidePassword}
-            style={{
-              marginBottom: isKeyboardShow ? 32 : 16,
-            }}
+            marginBottom={isKeyboardShow ? 32 : 16}
           >
-            <TouchableOpacity
-              style={styles.showBtn}
-              activeOpacity={0.7}
-              onPress={toggleHidePassword}
-            >
-              <Text style={styles.showBtnText}>
-                {hidePassword ? "Показать" : "Скрыть"}
-              </Text>
-            </TouchableOpacity>
-          </InputField>
-          <View style={styles.showBtnThumb}>
-            <TextInput
-              secureTextEntry={hidePassword}
-              value={state.password}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, password: value }))
-              }
-              style={{
-                ...styles.input,
-                marginBottom: isKeyboardShow ? 32 : 16,
-              }}
-              placeholderTextColor={"#BDBDBD"}
-              placeholder={"Пароль"}
+            <ToggleButton
+              toggleHidePassword={toggleHidePassword}
+              hidePassword={hidePassword}
             />
-            <TouchableOpacity
-              style={styles.showBtn}
-              activeOpacity={0.7}
-              onPress={toggleHidePassword}
-            >
-              <Text style={styles.showBtnText}>
-                {hidePassword ? "Показать" : "Скрыть"}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </InputField>
         </KeyboardAvoidingView>
         {!isKeyboardShow && (
           <>
@@ -109,7 +80,10 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
     </TouchableWithoutFeedback>
   );
 };
-
+// style={{
+//   ...styles.input,
+//   marginBottom: isKeyboardShow ? 32 : 16,
+// }}
 const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-end",
@@ -152,16 +126,7 @@ const styles = StyleSheet.create({
   showBtnThumb: {
     position: "relative",
   },
-  showBtn: {
-    position: "absolute",
-    top: 14,
-    right: 16,
-  },
-  showBtnText: {
-    fontFamily: "Roboto-Regular",
-    fontSize: 16,
-    color: "#1B4371",
-  },
+
   button: {
     alignItems: "center",
     justifyContent: "center",

@@ -6,17 +6,25 @@ export const InputField = ({
   state,
   setState,
   children,
+  secureTextEntry = false,
+  marginBottom = 16,
 }) => {
   return (
-    <View>
+    <View
+      style={{
+        position: children ? "relative" : "static",
+        marginBottom: marginBottom,
+      }}
+    >
       <TextInput
         value={state}
         onChangeText={(value) =>
-          setState((prevState) => ({ ...prevState, name: value }))
+          setState((prevState) => ({ ...prevState, [name]: value }))
         }
         style={styles.input}
         placeholderTextColor={"#BDBDBD"}
         placeholder={placeholder}
+        secureTextEntry={secureTextEntry}
       />
       {children}
     </View>
@@ -30,7 +38,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E8E8E8",
     borderRadius: 8,
-    marginBottom: 16,
     color: "#212121",
     fontSize: 16,
     fontFamily: "Roboto-Regular",
