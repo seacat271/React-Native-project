@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import {
   View,
   Text,
@@ -10,23 +9,24 @@ import {
   KeyboardAvoidingView,
   Dimensions,
 } from "react-native";
-import { ToggleButton } from "../components/ToggleButton/ToggleButton";
-import { SubmitButton } from "../components/SubmitButton/SubmitButton";
-import { InputField } from "../components/InputField/InputField";
-import { BackgroundContainer } from "../components/BackgroundContainer/BackgroundContainer";
-import { LinkButton } from "../components/LinkButton/LinkButton";
+import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
+import { SubmitButton } from "../../components/SubmitButton/SubmitButton";
+import { InputField } from "../../components/InputField/InputField";
+import { BackgroundContainer } from "../../components/BackgroundContainer/BackgroundContainer";
+import { LinkButton } from "../../components/LinkButton/LinkButton";
 const initialState = {
+  login: "",
   email: "",
   password: "",
 };
-export const LoginScreen = ({ navigation }) => {
+export const RegistrationScreen = ({ navigation }) => {
+  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
   const initialRatio =
     Dimensions.get("window").width / Dimensions.get("window").height;
   const [ratio, setRatio] = useState(initialRatio);
   const onChangeRatio = () => {
     setRatio(Dimensions.get("window").width / Dimensions.get("window").height);
   };
-  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
   useEffect(() => {
     const ratioListener = Dimensions.addEventListener("change", onChangeRatio);
     const keyboardDidShowListener = Keyboard.addListener(
@@ -44,7 +44,6 @@ export const LoginScreen = ({ navigation }) => {
       ratioListener.remove();
     };
   }, []);
-
   const [state, setState] = useState(initialState);
   const [hidePassword, setHidePassword] = useState(true);
   const submitButton = () => {
@@ -54,6 +53,7 @@ export const LoginScreen = ({ navigation }) => {
   const toggleHidePassword = () => {
     setHidePassword((prevState) => !prevState);
   };
+
   return (
     <BackgroundContainer>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -61,7 +61,13 @@ export const LoginScreen = ({ navigation }) => {
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <Text style={styles.title}>Войти</Text>
+            <Text style={styles.title}>Регистрация</Text>
+            <InputField
+              name={"login"}
+              placeholder={"Логин"}
+              state={state.login}
+              setState={setState}
+            />
             <InputField
               name={"email"}
               placeholder={"Aдрес електронной почты"}
@@ -84,11 +90,14 @@ export const LoginScreen = ({ navigation }) => {
           </KeyboardAvoidingView>
           {!isKeyboardShow && (
             <>
-              <SubmitButton title={"Войти"} handleSubmit={submitButton} />
+              <SubmitButton
+                title={"Зарегистрироваться"}
+                handleSubmit={submitButton}
+              />
               <LinkButton
-                onPressFunction={() => navigation.navigate("Registration")}
-                title={"Нет аккаунта? Зарегистрироваться"}
-                marginBottom={ratio > 1 ? 18 : 144}
+                onPressFunction={() => navigation.navigate("Login")}
+                title={"Уже есть аккаунт? Войти"}
+                marginBottom={ratio > 1 ? 18 : 78}
               />
             </>
           )}
@@ -97,7 +106,6 @@ export const LoginScreen = ({ navigation }) => {
     </BackgroundContainer>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-end",

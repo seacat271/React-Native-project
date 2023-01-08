@@ -1,11 +1,8 @@
 import { useFonts } from "expo-font";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { RegistrationScreen } from "./src/Screens/RegistrationScreen";
-import { LoginScreen } from "./src/Screens/LoginScreen";
 
-const AuthStack = createStackNavigator();
+import { useRoute } from "./src/router";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,20 +14,6 @@ export default function App() {
     return null;
   }
 
-  return (
-    <NavigationContainer>
-      <AuthStack.Navigator>
-        <AuthStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
-          options={{ headerShown: false }}
-        />
-        <AuthStack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-      </AuthStack.Navigator>
-    </NavigationContainer>
-  );
+  const routing = useRoute(true);
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
