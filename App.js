@@ -53,7 +53,7 @@ export default function App() {
         }}
       >
         <ImageBackground source={BcgImage} style={styles.bcgImage}>
-          <RegistrationScreen
+          <LoginScreen
             isKeyboardShow={isKeyboardShow}
             setIsKeyboardShow={setIsKeyboardShow}
             ratio={ratio}

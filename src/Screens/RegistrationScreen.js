@@ -1,18 +1,16 @@
 import { useState } from "react";
-import { SubmitButton } from "../components/SubmitButton/SubmitButton";
-import { InputField } from "../components/InputField/InputField";
 import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
 import { ToggleButton } from "../components/ToggleButton/ToggleButton";
+import { SubmitButton } from "../components/SubmitButton/SubmitButton";
+import { InputField } from "../components/InputField/InputField";
 
 const initialState = {
   login: "",
@@ -80,14 +78,9 @@ export const RegistrationScreen = ({ isKeyboardShow, ratio }) => {
     </TouchableWithoutFeedback>
   );
 };
-// style={{
-//   ...styles.input,
-//   marginBottom: isKeyboardShow ? 32 : 16,
-// }}
 const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-end",
-
     backgroundColor: "#ffffff",
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
@@ -99,46 +92,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 32,
     fontSize: 30,
-  },
-  input: {
-    height: 50,
-    backgroundColor: "#F6F6F6",
-    borderWidth: 1,
-    borderColor: "#E8E8E8",
-    borderRadius: 8,
-    marginBottom: 16,
-    color: "#212121",
-    fontSize: 16,
-    fontFamily: "Roboto-Regular",
-    padding: 16,
-    ...Platform.select({
-      ios: {
-        padding: 116,
-      },
-      android: {
-        padding: 16,
-      },
-      default: {
-        padding: 32,
-      },
-    }),
-  },
-  showBtnThumb: {
-    position: "relative",
-  },
-
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50,
-    borderRadius: 100,
-    backgroundColor: "#FF6C00",
-    marginBottom: 16,
-  },
-  buttonTitle: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontFamily: "Roboto-Regular",
   },
   helper: {
     textAlign: "center",

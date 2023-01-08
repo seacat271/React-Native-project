@@ -4,14 +4,14 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
-
+import { ToggleButton } from "../components/ToggleButton/ToggleButton";
+import { SubmitButton } from "../components/SubmitButton/SubmitButton";
+import { InputField } from "../components/InputField/InputField";
 const initialState = {
   email: "",
   password: "",
@@ -33,49 +33,29 @@ export const LoginScreen = ({ isKeyboardShow, ratio }) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <Text style={styles.title}>Войти</Text>
-          <TextInput
-            value={state.email}
-            onChangeText={(value) =>
-              setState((prevState) => ({ ...prevState, email: value }))
-            }
-            style={styles.input}
-            placeholderTextColor={"#BDBDBD"}
+          <InputField
+            name={"email"}
             placeholder={"Aдрес електронной почты"}
+            state={state.email}
+            setState={setState}
           />
-          <View>
-            <TextInput
-              secureTextEntry={hidePassword}
-              value={state.password}
-              onChangeText={(value) =>
-                setState((prevState) => ({ ...prevState, password: value }))
-              }
-              style={{
-                ...styles.input,
-                marginBottom: isKeyboardShow ? 32 : 16,
-              }}
-              placeholderTextColor={"#BDBDBD"}
-              placeholder={"Пароль"}
+          <InputField
+            name={"password"}
+            placeholder={"Пароль"}
+            state={state.password}
+            setState={setState}
+            secureTextEntry={hidePassword}
+            marginBottom={isKeyboardShow ? 32 : 16}
+          >
+            <ToggleButton
+              toggleHidePassword={toggleHidePassword}
+              hidePassword={hidePassword}
             />
-            <TouchableOpacity
-              style={styles.showBtn}
-              activeOpacity={0.7}
-              onPress={toggleHidePassword}
-            >
-              <Text style={styles.showBtnText}>
-                {hidePassword ? "Показать" : "Скрыть"}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </InputField>
         </KeyboardAvoidingView>
         {!isKeyboardShow && (
           <>
-            <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.7}
-              onPress={submitButton}
-            >
-              <Text style={styles.buttonTitle}>Войти</Text>
-            </TouchableOpacity>
+            <SubmitButton title={"Войти"} handleSubmit={submitButton} />
             <Text
               style={{ ...styles.helper, marginBottom: ratio > 1 ? 18 : 144 }}
             >
@@ -91,7 +71,6 @@ export const LoginScreen = ({ isKeyboardShow, ratio }) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "flex-end",
-
     backgroundColor: "#ffffff",
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
@@ -103,55 +82,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 32,
     fontSize: 30,
-  },
-  input: {
-    height: 50,
-    backgroundColor: "#F6F6F6",
-    borderWidth: 1,
-    borderColor: "#E8E8E8",
-    borderRadius: 8,
-    marginBottom: 16,
-    color: "#212121",
-    fontSize: 16,
-    fontFamily: "Roboto-Regular",
-    padding: 16,
-    ...Platform.select({
-      ios: {
-        padding: 116,
-      },
-      android: {
-        padding: 16,
-      },
-      default: {
-        padding: 32,
-      },
-    }),
-  },
-  showBtnThumb: {
-    position: "relative",
-  },
-  showBtn: {
-    position: "absolute",
-    top: 14,
-    right: 16,
-  },
-  showBtnText: {
-    fontFamily: "Roboto-Regular",
-    fontSize: 16,
-    color: "#1B4371",
-  },
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50,
-    borderRadius: 100,
-    backgroundColor: "#FF6C00",
-    marginBottom: 16,
-  },
-  buttonTitle: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontFamily: "Roboto-Regular",
   },
   helper: {
     textAlign: "center",
