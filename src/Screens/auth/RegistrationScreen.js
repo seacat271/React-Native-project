@@ -49,6 +49,7 @@ export const RegistrationScreen = ({ navigation }) => {
   const submitButton = () => {
     console.log(state);
     setState(initialState);
+    navigation.navigate("Home");
   };
   const toggleHidePassword = () => {
     setHidePassword((prevState) => !prevState);
