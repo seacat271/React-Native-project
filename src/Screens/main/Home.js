@@ -4,10 +4,12 @@ import { CreatePostsScreen } from "../../Screens/main/CreatePostsScreen";
 import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
+import { IconButton } from "../../components/IconButton/IconButton";
 const MainTab = createBottomTabNavigator();
-export const Home = () => {
+export const Home = ({ navigation }) => {
   return (
     <MainTab.Navigator
+      initialRouteName="Posts"
       tabBarOptions={{
         activeTintColor: "#FF6C00",
         inactiveTintColor: "rgba(33, 33, 33, 0.8)",
@@ -21,14 +23,14 @@ export const Home = () => {
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="grid" size={24} color={color} />
           ),
-          // headerRight: () => (
-          //   <Feather
-          //     name="log-out"
-          //     size={24}
-          //     color={color}
-          //     onPress={() => navigation.navigate("Login")}
-          //   />
-          // ),
+          headerRight: () => (
+            <IconButton
+              name={"log-out"}
+              color={"rgba(33, 33, 33, 0.8)"}
+              size={24}
+              navigation={navigation}
+            />
+          ),
         }}
       />
       <MainTab.Screen

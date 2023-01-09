@@ -11,17 +11,7 @@ export const useRoute = (isAuth) => {
       <AuthStack.Screen
         name="Home"
         component={Home}
-        options={{
-          title: "Home screen",
-          headerStyle: {
-            backgroundColor: "#f4511e",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            fontSize: 20,
-          },
-        }}
+        options={{ headerShown: false }}
       />
       <AuthStack.Screen
         name="Registration"
