@@ -9,11 +9,11 @@ export default function App() {
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
   });
-
+  const [isAuth, setIsAuth] = useState(false);
   if (!fontsLoaded) {
     return null;
   }
 
-  const routing = useRoute(true);
+  const routing = useRoute(isAuth, setIsAuth);
   return <NavigationContainer>{routing}</NavigationContainer>;
 }

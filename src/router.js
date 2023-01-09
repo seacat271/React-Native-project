@@ -11,10 +11,10 @@ import { View } from "react-native";
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export const useRoute = (isAuth) => {
+export const useRoute = (isAuth, setIsAuth) => {
   if (!isAuth) {
     return (
-      <AuthStack.Navigator>
+      <AuthStack.Navigator initialRouteName="Login">
         <AuthStack.Screen
           name="Registration"
           component={RegistrationScreen}
@@ -25,17 +25,45 @@ export const useRoute = (isAuth) => {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
+        <AuthStack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: "Home screen",
+            headerStyle: {
+              backgroundColor: "#f4511e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+              fontSize: 20,
+            },
+            headerRight: () => (
+              <Button
+                onPress={() => alert("This is a button!")}
+                title="Press me"
+                color="#fff"
+              />
+            ),
+          }}
+        />
       </AuthStack.Navigator>
     );
   }
   return (
-    <MainTab.Navigator tabBarOptions={{ showLabel: false }}>
+    <MainTab.Navigator
+      tabBarOptions={{
+        activeTintColor: "#FF6C00",
+        inactiveTintColor: "rgba(33, 33, 33, 0.8)",
+        showLabel: false,
+      }}
+    >
       <MainTab.Screen
         name="Posts"
         component={PostsScreen}
         options={{
           tabBarIcon: ({ focused, size, color }) => (
-            <Feather name="grid" size={24} color="rgba(33, 33, 33, 0.8)" />
+            <Feather name="grid" size={24} color={color} />
           ),
         }}
       />
@@ -64,7 +92,7 @@ export const useRoute = (isAuth) => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused, size, color }) => (
-            <Feather name="user" size={24} color="rgba(33, 33, 33, 0.8)" />
+            <Feather name="user" size={24} color={color} />
           ),
         }}
       />
