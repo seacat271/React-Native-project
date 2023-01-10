@@ -20,23 +20,44 @@ export const Home = ({ navigation }) => {
         name="Posts"
         component={PostsScreen}
         options={{
+          title: "Публикации",
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            fontFamily: "Roboto-Medium",
+            color: "#212121",
+          },
+          headerStyle: {
+            backgroundColor: "#FFFFFF",
+            borderBottomWidth: 1,
+            borderBottomColor: "#BDBDBD",
+          },
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="grid" size={24} color={color} />
           ),
           headerRight: () => (
             <IconButton
-              name={"log-out"}
-              color={"rgba(33, 33, 33, 0.8)"}
+              iconName={"log-out"}
+              color={"#BDBDBD"}
               size={24}
-              navigation={navigation}
+              navigation={() => navigation.navigate("Login")}
             />
           ),
+          headerRightContainerStyle: {
+            paddingRight: 10,
+          },
         }}
       />
       <MainTab.Screen
         name="CreatePosts"
         component={CreatePostsScreen}
         options={{
+          title: "Создать публикацию",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "#FFFFFF",
+            borderBottomWidth: 1,
+            borderBottomColor: "#BDBDBD",
+          },
           tabBarIcon: ({ focused, size, color }) => (
             <View
               style={{
@@ -51,12 +72,24 @@ export const Home = ({ navigation }) => {
               <Feather name="plus" size={14} color="#ffffff" />
             </View>
           ),
+          headerLeft: ({ focused, size, color }) => (
+            <IconButton
+              iconName={"arrow-left"}
+              color={color}
+              size={24}
+              navigation={() => navigation.navigate("Posts")}
+            />
+          ),
+          headerLeftContainerStyle: {
+            paddingLeft: 16,
+          },
         }}
       />
       <MainTab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="user" size={24} color={color} />
           ),
