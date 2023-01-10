@@ -14,6 +14,16 @@ export const Home = ({ navigation }) => {
         tabBarActiveTintColor: "#FF6C00",
         tabBarInactiveTintColor: "rgba(33, 33, 33, 0.8)",
         tabBarShowLabel: false,
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontFamily: "Roboto-Medium",
+          color: "#212121",
+        },
+        headerStyle: {
+          backgroundColor: "#FFFFFF",
+          borderBottomWidth: 1,
+          borderBottomColor: "#BDBDBD",
+        },
       }}
     >
       <MainTab.Screen
@@ -21,16 +31,7 @@ export const Home = ({ navigation }) => {
         component={PostsScreen}
         options={{
           title: "Публикации",
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontFamily: "Roboto-Medium",
-            color: "#212121",
-          },
-          headerStyle: {
-            backgroundColor: "#FFFFFF",
-            borderBottomWidth: 1,
-            borderBottomColor: "#BDBDBD",
-          },
+
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="grid" size={24} color={color} />
           ),
@@ -52,12 +53,6 @@ export const Home = ({ navigation }) => {
         component={CreatePostsScreen}
         options={{
           title: "Создать публикацию",
-          headerTitleAlign: "center",
-          headerStyle: {
-            backgroundColor: "#FFFFFF",
-            borderBottomWidth: 1,
-            borderBottomColor: "#BDBDBD",
-          },
           tabBarIcon: ({ focused, size, color }) => (
             <View
               style={{
