@@ -11,7 +11,9 @@ export const useRoute = (isAuth) => {
       <AuthStack.Screen
         name="Home"
         component={Home}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
       <AuthStack.Screen
         name="Registration"
@@ -21,7 +23,9 @@ export const useRoute = (isAuth) => {
       <AuthStack.Screen
         name="Login"
         component={LoginScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
     </AuthStack.Navigator>
   );
