@@ -1,8 +1,13 @@
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
-export const SubmitButton = ({ title, activeOpacity = 0.7, handleSubmit }) => {
+export const SubmitButton = ({
+  title,
+  activeOpacity = 0.7,
+  handleSubmit,
+  style,
+}) => {
   return (
     <TouchableOpacity
-      style={styles.button}
+      style={{ ...styles.button, ...style }}
       activeOpacity={activeOpacity}
       onPress={handleSubmit}
     >

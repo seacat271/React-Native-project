@@ -40,7 +40,7 @@ export const Home = ({ navigation }) => {
               iconName={"log-out"}
               color={"#BDBDBD"}
               size={24}
-              navigation={() => navigation.navigate("Login")}
+              onPressFunction={() => navigation.navigate("Login")}
             />
           ),
           headerRightContainerStyle: {
@@ -72,7 +72,7 @@ export const Home = ({ navigation }) => {
               iconName={"arrow-left"}
               color={color}
               size={24}
-              navigation={() => navigation.navigate("Posts")}
+              onPressFunction={() => navigation.navigate("Posts")}
             />
           ),
           headerLeftContainerStyle: {
