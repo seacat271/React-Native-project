@@ -5,7 +5,7 @@ import { IconButton } from "../../components/IconButton/IconButton";
 import { SubmitButton } from "../../components/SubmitButton/SubmitButton";
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(null);
   const takePhoto = async () => {
     const snap = await camera.takePictureAsync();
     setPhoto(snap.uri);
@@ -14,28 +14,29 @@ export const CreatePostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.cameraThumb}>
-        <Camera style={styles.camera} ref={setCamera}>
-          {/* {photo && (
-          <View style={styles.photoContainer}>
-            <Image source={{ uri: photo }} style={styles.photo} />
-          </View>
-        )} */}
-
-          <IconButton
-            iconName={"camera"}
-            color={"#FFFFFF"}
-            size={24}
-            onPressFunction={() => {
-              takePhoto();
-              console.log(photo);
-            }}
-            style={{ ...styles.btnContainer }}
-          />
-        </Camera>
+        {photo ? (
+          <Image source={{ uri: photo }} style={styles.camera} />
+        ) : (
+          <Camera style={styles.camera} ref={setCamera}>
+            <IconButton
+              iconName={"camera"}
+              color={"#FFFFFF"}
+              size={24}
+              onPressFunction={() => {
+                takePhoto();
+                console.log(photo);
+              }}
+              style={{ ...styles.btnContainer }}
+            />
+          </Camera>
+        )}
       </View>
       <SubmitButton
         title={"Опубликовать"}
-        handleSubmit={() => navigation.navigate("Posts")}
+        handleSubmit={() => {
+          setPhoto(null);
+          navigation.navigate("Posts");
+        }}
         style={{ marginTop: 32 }}
       />
     </View>
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
   },
   camera: {
     height: 240,
-
     justifyContent: "center",
     alignItems: "center",
   },
@@ -67,19 +67,5 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-  },
-  photoContainer: {
-    position: "absolute",
-    top: 30,
-    left: 10,
-    borderWidth: 1,
-    borderColor: "#ffffff",
-    borderRadius: 10,
-    width: 200,
-    height: 200,
-  },
-  photo: {
-    width: 200,
-    height: 200,
   },
 });

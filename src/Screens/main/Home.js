@@ -22,7 +22,7 @@ export const Home = ({ navigation }) => {
         headerStyle: {
           backgroundColor: "#FFFFFF",
           borderBottomWidth: 1,
-          borderBottomColor: "#BDBDBD",
+          borderBottomColor: "#E8E8E8",
         },
       }}
     >
