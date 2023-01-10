@@ -10,7 +10,7 @@ export const Home = ({ navigation }) => {
   return (
     <MainTab.Navigator
       initialRouteName="Posts"
-      tabBarOptions={{
+      options={{
         activeTintColor: "#FF6C00",
         inactiveTintColor: "rgba(33, 33, 33, 0.8)",
         showLabel: false,
