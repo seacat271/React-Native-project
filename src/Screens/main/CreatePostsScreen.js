@@ -1,6 +1,14 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  Button,
+} from "react-native";
 import { Camera } from "expo-camera";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as Progress from "react-native-progress";
 import { IconButton } from "../../components/IconButton/IconButton";
 import { SubmitButton } from "../../components/SubmitButton/SubmitButton";
 export const CreatePostsScreen = ({ navigation }) => {
@@ -10,7 +18,26 @@ export const CreatePostsScreen = ({ navigation }) => {
     const snap = await camera.takePictureAsync();
     setPhoto(snap.uri);
   };
+  const [permission, requestPermission] = Camera.useCameraPermissions();
 
+  if (!permission) {
+    return (
+      <View>
+        <Progress.Circle size={30} indeterminate={true} />
+      </View>
+    );
+  }
+
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: "center" }}>
+          We need your permission to show the camera
+        </Text>
+        <Button onPress={requestPermission} title="Предоставить разрешение" />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.cameraThumb}>
