@@ -9,16 +9,23 @@ import {
 import { Camera } from "expo-camera";
 import { useState, useEffect } from "react";
 import * as Progress from "react-native-progress";
+import * as Location from "expo-location";
 import { IconButton } from "../../components/IconButton/IconButton";
 import { SubmitButton } from "../../components/SubmitButton/SubmitButton";
+import { PermissionButton } from "../../components/PermissionButton/PermissionButton";
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [status, requestPermissionLocation] =
+    Location.useBackgroundPermissions();
   const takePhoto = async () => {
     const snap = await camera.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync();
+    console.log(location);
+
     setPhoto(snap.uri);
   };
-  const [permission, requestPermission] = Camera.useCameraPermissions();
 
   if (!permission) {
     return (
@@ -30,12 +37,10 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   if (!permission.granted) {
     return (
-      <View style={styles.container}>
-        <Text style={{ textAlign: "center" }}>
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={requestPermission} title="Предоставить разрешение" />
-      </View>
+      <PermissionButton
+        setPermission={requestPermission}
+        text={"We need your permission to show the camera"}
+      />
     );
   }
   return (
