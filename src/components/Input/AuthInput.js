@@ -1,6 +1,6 @@
 import { StyleSheet, View, Platform, TextInput } from "react-native";
 
-export const InputField = ({
+export const AuthInput = ({
   name,
   placeholder,
   state,

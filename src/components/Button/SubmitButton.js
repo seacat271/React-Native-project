@@ -4,14 +4,29 @@ export const SubmitButton = ({
   activeOpacity = 0.7,
   handleSubmit,
   style,
+  disabled,
 }) => {
   return (
     <TouchableOpacity
-      style={{ ...styles.button, ...style }}
+      style={{
+        ...styles.button,
+        ...style,
+        ...(disabled && styles.disabledColors),
+      }}
       activeOpacity={activeOpacity}
       onPress={handleSubmit}
+      disabled={disabled}
     >
-      {title && <Text style={styles.buttonTitle}>{title}</Text>}
+      {title && (
+        <Text
+          style={{
+            ...styles.buttonTitle,
+            ...(disabled && styles.disabledColors),
+          }}
+        >
+          {title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -29,5 +44,9 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontFamily: "Roboto-Regular",
+  },
+  disabledColors: {
+    color: "#BDBDBD",
+    backgroundColor: "#F6F6F6",
   },
 });

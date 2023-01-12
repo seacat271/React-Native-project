@@ -9,11 +9,11 @@ import {
   KeyboardAvoidingView,
   Dimensions,
 } from "react-native";
-import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
-import { SubmitButton } from "../../components/SubmitButton/SubmitButton";
-import { InputField } from "../../components/InputField/InputField";
+import { ToggleButton } from "../../components/Button/ToggleButton";
+import { SubmitButton } from "../../components/Button/SubmitButton";
+import { InputField } from "../../components/Input/AuthInput";
 import { BackgroundContainer } from "../../components/BackgroundContainer/BackgroundContainer";
-import { LinkButton } from "../../components/LinkButton/LinkButton";
+import { LinkButton } from "../../components/Button/LinkButton";
 const initialState = {
   login: "",
   email: "",
@@ -84,8 +84,11 @@ export const RegistrationScreen = ({ navigation }) => {
               marginBottom={isKeyboardShow ? 32 : 16}
             >
               <ToggleButton
+                toggleTitle={["Показать", "Скрыть"]}
                 toggleFunction={toggleHidePassword}
                 toggleFlag={hidePassword}
+                toggleContainer={styles.toggleContainer}
+                toggleText={styles.toggleText}
               />
             </InputField>
           </KeyboardAvoidingView>
@@ -121,5 +124,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 32,
     fontSize: 30,
+  },
+  toggleContainer: {
+    position: "absolute",
+    top: 14,
+    right: 16,
+  },
+  toggleText: {
+    fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: "#1B4371",
   },
 });

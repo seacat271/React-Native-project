@@ -8,7 +8,7 @@ export const PermissionButton = ({ request, text }) => {
   );
 };
 
-const styles = StyleSheet({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-start",

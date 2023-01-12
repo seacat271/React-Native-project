@@ -4,7 +4,7 @@ import { CreatePostsScreen } from "../../Screens/main/CreatePostsScreen";
 import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
-import { IconButton } from "../../components/IconButton/IconButton";
+import { IconButton } from "../../components/Button/IconButton";
 const MainTab = createBottomTabNavigator();
 export const Home = ({ navigation }) => {
   return (
