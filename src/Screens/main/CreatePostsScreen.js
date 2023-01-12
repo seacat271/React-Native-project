@@ -62,7 +62,7 @@ export const CreatePostsScreen = ({ navigation }) => {
         title={"Опубликовать"}
         handleSubmit={() => {
           setPhoto(null);
-          navigation.navigate("Posts");
+          navigation.navigate("Posts", { photo });
         }}
         style={{ marginTop: 32 }}
       />

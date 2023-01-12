@@ -1,5 +1,12 @@
-import { Text, View } from "react-native";
-export const PostsScreen = () => {
+import { useState, useEffect } from "react";
+import { Text, View, FlatList, Image } from "react-native";
+export const PostsScreen = ({ route }) => {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    if (!route.params) return;
+    setPosts((prevState) => [...prevState, route.params]);
+    console.log(posts);
+  }, [route.params]);
   return (
     <View
       style={{
@@ -9,7 +16,18 @@ export const PostsScreen = () => {
         backgroundColor: "#ffffff",
       }}
     >
-      <Text>PostScreen</Text>
+      <FlatList
+        data={posts}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={{ marginHorizontal: 10, marginTop: 10 }}>
+            <Image
+              source={{ uri: item.photo }}
+              style={{ width: 300, height: 240 }}
+            />
+          </View>
+        )}
+      />
     </View>
   );
 };
