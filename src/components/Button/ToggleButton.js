@@ -8,7 +8,6 @@ export const ToggleButton = ({
   toggleText,
   activeOpacity = 0.7,
 }) => {
-  console.log(toggleContainer);
   return (
     <TouchableOpacity
       style={toggleContainer}

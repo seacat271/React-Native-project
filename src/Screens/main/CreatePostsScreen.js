@@ -10,10 +10,13 @@ import { Camera } from "expo-camera";
 import { useState, useEffect } from "react";
 import * as Progress from "react-native-progress";
 import * as Location from "expo-location";
-import { ToggleButton } from "../../components/Button/ToggleButton";
-import { IconButton } from "../../components/Button/IconButton";
-import { SubmitButton } from "../../components/Button/SubmitButton";
-import { PermissionButton } from "../../components/Button/PermissionButton";
+import {
+  ToggleButton,
+  IconButton,
+  SubmitButton,
+  PermissionButton,
+} from "../../components/Button";
+import { DescribeInput } from "../../components/Input";
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
@@ -45,16 +48,16 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   if (!permission.granted) {
     return (
-      <PermissionButton
-        request={requestPermission}
-        text={"We need your permission to show the camera"}
+      <SubmitButton
+        handleSubmit={requestPermission}
+        title={"We need your permission to show the camera"}
       />
     );
   } else if (!status.granted) {
     return (
-      <PermissionButton
-        request={requestPermissionLocation}
-        text={"We need your permission to show the location"}
+      <SubmitButton
+        handleSubmit={requestPermission}
+        title={"We need your permission to show the camera"}
       />
     );
   }
@@ -84,6 +87,12 @@ export const CreatePostsScreen = ({ navigation }) => {
         toggleContainer={styles.toggleContainer}
         toggleText={styles.toggleText}
       />
+      <DescribeInput placeholder={"Название..."} boldFont={true} />
+      <DescribeInput
+        placeholder={"Местность..."}
+        iconName={"map-pin"}
+        marginBottom={32}
+      />
       <SubmitButton
         title={"Опубликовать"}
         handleSubmit={() => {
@@ -94,7 +103,7 @@ export const CreatePostsScreen = ({ navigation }) => {
           setPhoto(null);
           setPhotoLocation(null);
         }}
-        style={{ marginTop: 32 }}
+        style={{ marginTop: 16 }}
         disabled={!photo}
       />
     </View>
@@ -128,6 +137,7 @@ const styles = StyleSheet.create({
   },
   toggleContainer: {
     marginTop: 8,
+    marginBottom: 32,
   },
   toggleText: {
     fontFamily: "Roboto-Regular",

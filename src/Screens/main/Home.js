@@ -1,12 +1,19 @@
+import { useLayoutEffect } from "react";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { ProfileScreen } from "../../Screens/main/ProfileScreen";
 import { PostsScreen } from "../../Screens/main/PostsScreen";
 import { CreatePostsScreen } from "../../Screens/main/CreatePostsScreen";
 import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
-import { IconButton } from "../../components/Button/IconButton";
+import { IconButton } from "../../components/Button";
 const MainTab = createBottomTabNavigator();
-export const Home = ({ navigation }) => {
+const getTabBarStyle = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
+  let display = routeName === "CreatePosts" ? "none" : "flex";
+  return { display };
+};
+export const Home = ({ navigation, route }) => {
   return (
     <MainTab.Navigator
       initialRouteName="Posts"
@@ -78,6 +85,7 @@ export const Home = ({ navigation }) => {
           headerLeftContainerStyle: {
             paddingLeft: 16,
           },
+          tabBarStyle: { display: "none" },
         }}
       />
       <MainTab.Screen

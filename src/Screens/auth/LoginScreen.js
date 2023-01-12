@@ -10,11 +10,13 @@ import {
   KeyboardAvoidingView,
   Dimensions,
 } from "react-native";
-import { ToggleButton } from "../../components/Button/ToggleButton";
-import { SubmitButton } from "../../components/Button/SubmitButton";
-import { InputField } from "../../components/Input/AuthInput";
+import {
+  ToggleButton,
+  SubmitButton,
+  LinkButton,
+} from "../../components/Button";
+import { AuthInput } from "../../components/Input";
 import { BackgroundContainer } from "../../components/BackgroundContainer/BackgroundContainer";
-import { LinkButton } from "../../components/Button/LinkButton";
 const initialState = {
   email: "",
   password: "",
@@ -63,13 +65,13 @@ export const LoginScreen = ({ navigation }) => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
             <Text style={styles.title}>Войти</Text>
-            <InputField
+            <AuthInput
               name={"email"}
               placeholder={"Aдрес електронной почты"}
               state={state.email}
               setState={setState}
             />
-            <InputField
+            <AuthInput
               name={"password"}
               placeholder={"Пароль"}
               state={state.password}
@@ -84,7 +86,7 @@ export const LoginScreen = ({ navigation }) => {
                 toggleContainer={styles.toggleContainer}
                 toggleText={styles.toggleText}
               />
-            </InputField>
+            </AuthInput>
           </KeyboardAvoidingView>
           {!isKeyboardShow && (
             <>
