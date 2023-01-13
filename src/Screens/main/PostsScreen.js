@@ -9,12 +9,14 @@ const NestedScreen = createStackNavigator();
 export const PostsScreen = ({ navigation }) => {
   return (
     <NestedScreen.Navigator
+      initialRouteName="Default"
       screenOptions={{
         headerTitleAlign: "center",
         headerTitleStyle: {
           fontFamily: "Roboto-Medium",
           color: "#212121",
         },
+
         headerStyle: {
           backgroundColor: "#FFFFFF",
           borderBottomWidth: 1,

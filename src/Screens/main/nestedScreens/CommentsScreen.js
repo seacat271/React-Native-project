@@ -93,8 +93,6 @@ export const CommentsScreen = ({ route }) => {
     ]);
     setText(initialState);
   };
-  console.log(text);
-  console.log(comments);
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -123,17 +121,7 @@ export const CommentsScreen = ({ route }) => {
           <IconButton
             iconName={"arrow-up"}
             color={"#FFFFFF"}
-            style={{
-              backgroundColor: "#FF6C00",
-              width: 34,
-              height: 34,
-              borderRadius: 17,
-              justifyContent: "center",
-              alignItems: "center",
-              position: "absolute",
-              top: 8,
-              right: 8,
-            }}
+            style={styles.iconBtn}
             onPressFunction={addComments}
           />
         </PostInput>
@@ -159,5 +147,16 @@ const styles = StyleSheet.create({
     height: 240,
     justifyContent: "center",
     alignItems: "center",
+  },
+  iconBtn: {
+    backgroundColor: "#FF6C00",
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 8,
+    right: 8,
   },
 });
