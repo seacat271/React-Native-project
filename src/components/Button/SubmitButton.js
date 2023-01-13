@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontFamily: "Roboto-Regular",
+    textAlign: "center",
   },
   disabledColors: {
     color: "#BDBDBD",

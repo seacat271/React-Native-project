@@ -82,16 +82,18 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   if (!permission.granted) {
     return (
-      <SubmitButton
-        handleSubmit={requestPermission}
-        title={"We need your permission to show the camera"}
-      />
+      <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
+        <SubmitButton
+          handleSubmit={() => requestPermission()}
+          title={"Приложению необходимо разрешение на использование Камеры"}
+        />
+      </View>
     );
   } else if (!status.granted) {
     return (
       <SubmitButton
         handleSubmit={requestPermission}
-        title={"We need your permission to show the camera"}
+        title={"Приложению необходимо разрешение на использование Геолокации"}
       />
     );
   }
