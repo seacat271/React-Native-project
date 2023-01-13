@@ -8,8 +8,37 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Dimensions,
+  FlatList,
 } from "react-native";
-
+const comments = [
+  {
+    id: 2,
+    text: "dfkvjfvkdfsv",
+    timestamp: 9487346907,
+    owner: {
+      userId: 1,
+      avatar: "dssgdfdb",
+    },
+  },
+  {
+    id: 5,
+    text: "dfkvjfvkdfsvvcxngfngxf gf ngfngfndfgfxn",
+    timestamp: 9487346907,
+    owner: {
+      userId: 3,
+      avatar: "dssgdfzbdfdb",
+    },
+  },
+  {
+    id: 8,
+    text: "fgf",
+    timestamp: 9487346907,
+    owner: {
+      userId: 1,
+      avatar: "dssgdfdb",
+    },
+  },
+];
 export const CommentsScreen = ({ route }) => {
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
 
@@ -19,7 +48,7 @@ export const CommentsScreen = ({ route }) => {
   const onChangeRatio = () => {
     setRatio(Dimensions.get("window").width / Dimensions.get("window").height);
   };
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState({});
   useEffect(() => {
     if (!route.params) return;
     setPost(route.params);
@@ -51,7 +80,21 @@ export const CommentsScreen = ({ route }) => {
             <Image source={{ uri: post.uri }} style={styles.camera} />
           </View>
         </KeyboardAvoidingView>
-        <Text>CommentsScreen</Text>
+        <FlatList
+          data={comments}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View>
+              <View>
+                <Image source={item.owner.avatar} />
+              </View>
+              <View>
+                <Text>{item.text}</Text>
+                <Text>{item.timestamp}</Text>
+              </View>
+            </View>
+          )}
+        />
       </View>
     </TouchableWithoutFeedback>
   );

@@ -8,11 +8,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import { IconButton } from "../../components/Button";
 const MainTab = createBottomTabNavigator();
-const getTabBarStyle = (route) => {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
-  let display = routeName === "CreatePosts" ? "none" : "flex";
-  return { display };
-};
+
+// const getHeaderShown = (route) => {
+//   return getFocusedRouteNameFromRoute(route) === "Comments";
+// };
+
 export const Home = ({ navigation, route }) => {
   return (
     <MainTab.Navigator
@@ -37,22 +37,10 @@ export const Home = ({ navigation, route }) => {
         name="Posts"
         component={PostsScreen}
         options={{
-          title: "Публикации",
-
+          headerShown: false,
           tabBarIcon: ({ focused, size, color }) => (
             <Feather name="grid" size={24} color={color} />
           ),
-          headerRight: () => (
-            <IconButton
-              iconName={"log-out"}
-              color={"#BDBDBD"}
-              size={24}
-              onPressFunction={() => navigation.navigate("Login")}
-            />
-          ),
-          headerRightContainerStyle: {
-            paddingRight: 10,
-          },
         }}
       />
       <MainTab.Screen
