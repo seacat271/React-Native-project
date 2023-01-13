@@ -91,10 +91,12 @@ export const CreatePostsScreen = ({ navigation }) => {
     );
   } else if (!status.granted) {
     return (
-      <SubmitButton
-        handleSubmit={requestPermission}
-        title={"Приложению необходимо разрешение на использование Геолокации"}
-      />
+      <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
+        <SubmitButton
+          handleSubmit={() => requestPermission()}
+          title={"Приложению необходимо разрешение на использование Геолокации"}
+        />
+      </View>
     );
   }
   return (
