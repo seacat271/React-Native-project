@@ -12,6 +12,7 @@ import { Camera } from "expo-camera";
 import { useState, useEffect } from "react";
 import * as Progress from "react-native-progress";
 import * as Location from "expo-location";
+import { v4 as uuidv4 } from "uuid";
 import {
   ToggleButton,
   IconButton,
@@ -158,6 +159,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                   location: photoCoord,
                   name: photoDescription.name,
                   locationName: photoDescription.locationName,
+                  id: uuidv4(),
                 });
                 changePhoto();
                 setPhotoDescription(initialState);
