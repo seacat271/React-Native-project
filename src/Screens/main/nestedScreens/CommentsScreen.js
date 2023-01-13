@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Text,
   View,
@@ -10,14 +10,18 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-const comments = [
+import { TextInput } from "react-native-gesture-handler";
+import { IconButton } from "../../../components/Button";
+import { PostInput } from "../../../components/Input/PostInput";
+import { PostCard } from "../../../components/PostCard/PostCard";
+const initialComments = [
   {
     id: 2,
     text: "dfkvjfvkdfsv",
     timestamp: 9487346907,
     owner: {
       userId: 1,
-      avatar: "dssgdfdb",
+      avatar: require("../../../../assets/images/user.webp"),
     },
   },
   {
@@ -26,7 +30,7 @@ const comments = [
     timestamp: 9487346907,
     owner: {
       userId: 3,
-      avatar: "dssgdfzbdfdb",
+      avatar: require("../../../../assets/images/user.webp"),
     },
   },
   {
@@ -35,13 +39,17 @@ const comments = [
     timestamp: 9487346907,
     owner: {
       userId: 1,
-      avatar: "dssgdfdb",
+      avatar: require("../../../../assets/images/user.webp"),
     },
   },
 ];
+const initialState = {
+  text: "",
+};
 export const CommentsScreen = ({ route }) => {
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
-
+  const [comments, setComments] = useState(initialComments);
+  const [text, setText] = useState(initialState);
   const initialRatio =
     Dimensions.get("window").width / Dimensions.get("window").height;
   const [ratio, setRatio] = useState(initialRatio);
@@ -49,6 +57,7 @@ export const CommentsScreen = ({ route }) => {
     setRatio(Dimensions.get("window").width / Dimensions.get("window").height);
   };
   const [post, setPost] = useState({});
+
   useEffect(() => {
     if (!route.params) return;
     setPost(route.params);
@@ -61,15 +70,31 @@ export const CommentsScreen = ({ route }) => {
       "keyboardDidHide",
       () => setIsKeyboardShow(false)
     );
-
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
       ratioListener.remove();
     };
   }, []);
-  console.log("route", route.params);
-  console.log("state", post);
+
+  const flatList = useRef(null);
+  const addComments = () => {
+    setComments((prevState) => [
+      ...prevState,
+      {
+        id: Date.now(),
+        text: text.text,
+        timestamp: Date.now(),
+        owner: {
+          userId: 5,
+          avatar: require("../../../../assets/images/user.webp"),
+        },
+      },
+    ]);
+    setText(initialState);
+  };
+  console.log(text);
+  console.log(comments);
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -81,20 +106,37 @@ export const CommentsScreen = ({ route }) => {
           </View>
         </KeyboardAvoidingView>
         <FlatList
+          ref={flatList}
+          onContentSizeChange={() => {
+            flatList.current.scrollToEnd();
+          }}
           data={comments}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View>
-              <View>
-                <Image source={item.owner.avatar} />
-              </View>
-              <View>
-                <Text>{item.text}</Text>
-                <Text>{item.timestamp}</Text>
-              </View>
-            </View>
-          )}
+          renderItem={({ item }) => <PostCard item={item} />}
         />
+        <PostInput
+          state={text.text}
+          setState={setText}
+          placeholder={"Комментировать ..."}
+          name={"text"}
+        >
+          <IconButton
+            iconName={"arrow-up"}
+            color={"#FFFFFF"}
+            style={{
+              backgroundColor: "#FF6C00",
+              width: 34,
+              height: 34,
+              borderRadius: 17,
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+            onPressFunction={addComments}
+          />
+        </PostInput>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -111,6 +153,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderRadius: 8,
     marginTop: 32,
+    marginBottom: 32,
   },
   camera: {
     height: 240,
