@@ -12,7 +12,8 @@ import { Camera } from "expo-camera";
 import { useState, useEffect } from "react";
 import * as Progress from "react-native-progress";
 import * as Location from "expo-location";
-import { v4 as uuidv4 } from "uuid";
+import "react-native-get-random-values";
+import { v4 as uuid } from "uuid";
 import {
   ToggleButton,
   IconButton,
@@ -93,7 +94,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     return (
       <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
         <SubmitButton
-          handleSubmit={() => requestPermission()}
+          handleSubmit={() => requestPermissionLocation()}
           title={"Приложению необходимо разрешение на использование Геолокации"}
         />
       </View>
@@ -163,7 +164,7 @@ export const CreatePostsScreen = ({ navigation }) => {
                   location: photoCoord,
                   name: photoDescription.name,
                   locationName: photoDescription.locationName,
-                  id: uuidv4(),
+                  id: uuid(),
                 });
                 changePhoto();
                 setPhotoDescription(initialState);
