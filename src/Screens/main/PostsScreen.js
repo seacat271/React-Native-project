@@ -59,7 +59,11 @@ export const PostsScreen = ({ navigation }) => {
           },
         }}
       />
-      <NestedScreen.Screen name="Map" component={MapScreen} />
+      <NestedScreen.Screen
+        name="Map"
+        component={MapScreen}
+        options={{ title: "Карта" }}
+      />
     </NestedScreen.Navigator>
   );
 };
