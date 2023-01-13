@@ -54,16 +54,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Roboto-Regular",
     padding: 16,
-    // ...Platform.select({
-    //   ios: {
-    //     padding: 116,
-    //   },
-    //   android: {
-    //     padding: 16,
-    //   },
-    //   default: {
-    //     padding: 32,
-    //   },
-    // }),
+    ...Platform.select({
+      ios: {
+        padding: 116,
+      },
+      android: {
+        padding: 16,
+      },
+      default: {
+        padding: 32,
+      },
+    }),
   },
 });

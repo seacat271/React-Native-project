@@ -20,7 +20,7 @@ export const DefaultScreen = ({ navigation, route }) => {
       <FlatList
         data={posts}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={{ marginHorizontal: 10, marginTop: 10 }}>
             <Image
               source={{ uri: item.photo }}
@@ -34,7 +34,12 @@ export const DefaultScreen = ({ navigation, route }) => {
             />
             <IconButton
               iconName={"message-circle"}
-              onPressFunction={() => navigation.navigate("Comments")}
+              onPressFunction={() =>
+                navigation.navigate("Comments", {
+                  id: index.toString(),
+                  uri: item.photo,
+                })
+              }
             />
           </View>
         )}

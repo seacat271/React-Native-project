@@ -1,6 +1,15 @@
-import { StyleSheet, View, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Dimensions,
+} from "react-native";
 import { Camera } from "expo-camera";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as Progress from "react-native-progress";
 import * as Location from "expo-location";
 import {
@@ -9,12 +18,37 @@ import {
   SubmitButton,
 } from "../../components/Button";
 import { DescribeInput } from "../../components/Input";
-import { State } from "react-native-gesture-handler";
+
 const initialState = {
   name: "",
   locationName: "",
 };
 export const CreatePostsScreen = ({ navigation }) => {
+  const [isKeyboardShow, setIsKeyboardShow] = useState(false);
+
+  const initialRatio =
+    Dimensions.get("window").width / Dimensions.get("window").height;
+  const [ratio, setRatio] = useState(initialRatio);
+  const onChangeRatio = () => {
+    setRatio(Dimensions.get("window").width / Dimensions.get("window").height);
+  };
+  useEffect(() => {
+    const ratioListener = Dimensions.addEventListener("change", onChangeRatio);
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setIsKeyboardShow(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setIsKeyboardShow(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+      ratioListener.remove();
+    };
+  }, []);
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [photoCoord, setPhotoCoord] = useState(null);
@@ -61,82 +95,91 @@ export const CreatePostsScreen = ({ navigation }) => {
     );
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.cameraThumb}>
-        {photo ? (
-          <Image source={{ uri: photo }} style={styles.camera} />
-        ) : (
-          <Camera style={styles.camera} ref={setCamera}>
-            <IconButton
-              iconName={"camera"}
-              color={"#FFFFFF"}
-              size={24}
-              onPressFunction={() => {
-                takeData();
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.cameraThumb}>
+            {photo ? (
+              <Image source={{ uri: photo }} style={styles.camera} />
+            ) : (
+              <Camera style={styles.camera} ref={setCamera}>
+                <IconButton
+                  iconName={"camera"}
+                  color={"#FFFFFF"}
+                  size={24}
+                  onPressFunction={() => {
+                    takeData();
+                  }}
+                  style={{ ...styles.btnContainer }}
+                />
+              </Camera>
+            )}
+          </View>
+          <ToggleButton
+            toggleFlag={!!photo}
+            toggleFunction={changePhoto}
+            toggleTitle={["Редактировать фото", "Загрузите фото"]}
+            toggleContainer={styles.toggleContainer}
+            toggleText={styles.toggleText}
+          />
+
+          <DescribeInput
+            name={"name"}
+            placeholder={"Название..."}
+            boldFont={true}
+            state={photoDescription.name}
+            setState={setPhotoDescription}
+          />
+          <DescribeInput
+            name={"locationName"}
+            placeholder={"Местность..."}
+            iconName={"map-pin"}
+            marginBottom={isKeyboardShow ? 32 : 16}
+            state={photoDescription.locationName}
+            setState={setPhotoDescription}
+          />
+        </KeyboardAvoidingView>
+        {!isKeyboardShow && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "space-between",
+              textAlign: "center",
+              marginBottom: 34,
+            }}
+          >
+            <SubmitButton
+              title={"Опубликовать"}
+              handleSubmit={() => {
+                navigation.navigate("Default", {
+                  photo,
+                  location: photoCoord,
+                  name: photoDescription.name,
+                  locationName: photoDescription.locationName,
+                });
+                changePhoto();
+                setPhotoDescription(initialState);
               }}
-              style={{ ...styles.btnContainer }}
+              style={{ marginTop: 16 }}
+              disabled={!photo}
             />
-          </Camera>
+            <View style={{ alignItems: "center" }}>
+              <IconButton
+                iconName={"trash-2"}
+                color={"#DADADA"}
+                style={styles.trashBtn}
+                onPressFunction={() => {
+                  changePhoto();
+                  setPhotoDescription(initialState);
+                }}
+              />
+            </View>
+          </View>
         )}
       </View>
-      <ToggleButton
-        toggleFlag={!!photo}
-        toggleFunction={changePhoto}
-        toggleTitle={["Редактировать фото", "Загрузите фото"]}
-        toggleContainer={styles.toggleContainer}
-        toggleText={styles.toggleText}
-      />
-      <DescribeInput
-        name={"name"}
-        placeholder={"Название..."}
-        boldFont={true}
-        state={photoDescription.name}
-        setState={setPhotoDescription}
-      />
-      <DescribeInput
-        name={"locationName"}
-        placeholder={"Местность..."}
-        iconName={"map-pin"}
-        marginBottom={32}
-        state={photoDescription.locationName}
-        setState={setPhotoDescription}
-      />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "space-between",
-          textAlign: "center",
-          marginBottom: 34,
-        }}
-      >
-        <SubmitButton
-          title={"Опубликовать"}
-          handleSubmit={() => {
-            navigation.navigate("Default", {
-              photo,
-              location: photoCoord,
-              name: photoDescription.name,
-              locationName: photoDescription.locationName,
-            });
-            changePhoto();
-            setPhotoDescription(initialState);
-          }}
-          style={{ marginTop: 16 }}
-          disabled={!photo}
-        />
-        <View style={{ alignItems: "center" }}>
-          <IconButton
-            iconName={"trash-2"}
-            color={"#DADADA"}
-            style={styles.trashBtn}
-            onPressFunction={() => {
-              changePhoto();
-              setPhotoDescription(initialState);
-            }}
-          />
-        </View>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
