@@ -1,34 +1,32 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-  Button,
-} from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { Camera } from "expo-camera";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import * as Progress from "react-native-progress";
 import * as Location from "expo-location";
 import {
   ToggleButton,
   IconButton,
   SubmitButton,
-  PermissionButton,
 } from "../../components/Button";
 import { DescribeInput } from "../../components/Input";
+import { State } from "react-native-gesture-handler";
+const initialState = {
+  name: "",
+  locationName: "",
+};
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
-  const [photoLocation, setPhotoLocation] = useState(null);
+  const [photoCoord, setPhotoCoord] = useState(null);
+  const [photoDescription, setPhotoDescription] = useState(initialState);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [status, requestPermissionLocation] =
     Location.useForegroundPermissions();
   const takeData = async () => {
     const snap = await camera.takePictureAsync();
     const location = await Location.getCurrentPositionAsync();
-    console.log("create", location.coords);
-    setPhotoLocation({
+    console.log("create", photoDescription);
+    setPhotoCoord({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     });
@@ -36,6 +34,7 @@ export const CreatePostsScreen = ({ navigation }) => {
   };
   const changePhoto = () => {
     setPhoto(null);
+    setPhotoCoord(null);
   };
 
   if (!permission || !status) {
@@ -87,25 +86,56 @@ export const CreatePostsScreen = ({ navigation }) => {
         toggleContainer={styles.toggleContainer}
         toggleText={styles.toggleText}
       />
-      <DescribeInput placeholder={"Название..."} boldFont={true} />
       <DescribeInput
+        name={"name"}
+        placeholder={"Название..."}
+        boldFont={true}
+        state={photoDescription.name}
+        setState={setPhotoDescription}
+      />
+      <DescribeInput
+        name={"locationName"}
         placeholder={"Местность..."}
         iconName={"map-pin"}
         marginBottom={32}
+        state={photoDescription.locationName}
+        setState={setPhotoDescription}
       />
-      <SubmitButton
-        title={"Опубликовать"}
-        handleSubmit={() => {
-          navigation.navigate("Default", {
-            photo,
-            location: photoLocation,
-          });
-          setPhoto(null);
-          setPhotoLocation(null);
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "space-between",
+          textAlign: "center",
+          marginBottom: 34,
         }}
-        style={{ marginTop: 16 }}
-        disabled={!photo}
-      />
+      >
+        <SubmitButton
+          title={"Опубликовать"}
+          handleSubmit={() => {
+            navigation.navigate("Default", {
+              photo,
+              location: photoCoord,
+              name: photoDescription.name,
+              locationName: photoDescription.locationName,
+            });
+            changePhoto();
+            setPhotoDescription(initialState);
+          }}
+          style={{ marginTop: 16 }}
+          disabled={!photo}
+        />
+        <View style={{ alignItems: "center" }}>
+          <IconButton
+            iconName={"trash-2"}
+            color={"#DADADA"}
+            style={styles.trashBtn}
+            onPressFunction={() => {
+              changePhoto();
+              setPhotoDescription(initialState);
+            }}
+          />
+        </View>
+      </View>
     </View>
   );
 };
@@ -143,5 +173,13 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     color: "#BDBDBD",
+  },
+  trashBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F6F6F6",
+    borderRadius: 20,
+    width: 70,
+    height: 40,
   },
 });
