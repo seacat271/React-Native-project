@@ -16,13 +16,16 @@ import {
 } from "../../components/Button";
 import { AuthInput } from "../../components/Input";
 import { BackgroundContainer } from "../../components/BackgroundContainer/BackgroundContainer";
-
+import { useDispatch } from "react-redux";
+import { authSignUpUser } from "../../../redux/auth/authOperations";
 const initialState = {
   login: "",
   email: "",
   password: "",
 };
 export const RegistrationScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
   const initialRatio =
     Dimensions.get("window").width / Dimensions.get("window").height;
@@ -49,7 +52,8 @@ export const RegistrationScreen = ({ navigation }) => {
   }, []);
   const [state, setState] = useState(initialState);
   const [hidePassword, setHidePassword] = useState(true);
-  const submitButton = () => {
+  const handleSubmit = () => {
+    dispatch(authSignUpUser(state));
     console.log(state);
     setState(initialState);
     navigation.navigate("Home");
@@ -99,7 +103,7 @@ export const RegistrationScreen = ({ navigation }) => {
             <>
               <SubmitButton
                 title={"Зарегистрироваться"}
-                handleSubmit={submitButton}
+                handleSubmit={handleSubmit}
               />
               <LinkButton
                 onPressFunction={() => navigation.navigate("Login")}

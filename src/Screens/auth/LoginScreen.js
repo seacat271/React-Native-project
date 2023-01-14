@@ -10,6 +10,8 @@ import {
   KeyboardAvoidingView,
   Dimensions,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { authSignInUser } from "../../../redux/auth/authOperations";
 import {
   ToggleButton,
   SubmitButton,
@@ -46,12 +48,12 @@ export const LoginScreen = ({ navigation }) => {
       ratioListener.remove();
     };
   }, []);
-
+  const dispatch = useDispatch();
   const [state, setState] = useState(initialState);
   const [hidePassword, setHidePassword] = useState(true);
-  const submitButton = () => {
-    console.log(state);
+  const handleSubmit = () => {
     setState(initialState);
+    dispatch(authSignInUser(state));
     navigation.navigate("Home");
   };
   const toggleHidePassword = () => {
@@ -90,7 +92,7 @@ export const LoginScreen = ({ navigation }) => {
           </KeyboardAvoidingView>
           {!isKeyboardShow && (
             <>
-              <SubmitButton title={"Войти"} handleSubmit={submitButton} />
+              <SubmitButton title={"Войти"} handleSubmit={handleSubmit} />
               <LinkButton
                 onPressFunction={() => navigation.navigate("Registration")}
                 title={"Нет аккаунта? Зарегистрироваться"}
