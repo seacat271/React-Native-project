@@ -1,14 +1,13 @@
-import app from "../../firebase/config";
+import auth from "../../firebase/config";
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { Alert } from "react-native";
 const authSignInUser =
   ({ email, password }) =>
   async (dispatch, getState) => {
     try {
-      const auth = getAuth(app);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
@@ -17,7 +16,7 @@ const authSignInUser =
       console.log(userCredential);
     } catch (error) {
       console.log(error);
-      console.log(error.message);
+      Alert.alert(error.message);
     }
   };
 const authSignUpUser =
