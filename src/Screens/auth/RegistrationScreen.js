@@ -54,9 +54,7 @@ export const RegistrationScreen = ({ navigation }) => {
   const [hidePassword, setHidePassword] = useState(true);
   const handleSubmit = () => {
     dispatch(authSignUpUser(state));
-    console.log(state);
     setState(initialState);
-    navigation.navigate("Home");
   };
   const toggleHidePassword = () => {
     setHidePassword((prevState) => !prevState);

@@ -1,10 +1,7 @@
 import { useFonts } from "expo-font";
-
-import { NavigationContainer } from "@react-navigation/native";
-
-import { useRoute } from "./src/router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { Main } from "./src/components/Main/Main";
 export default function App() {
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -16,10 +13,9 @@ export default function App() {
     return null;
   }
 
-  const routing = useRoute(true);
   return (
     <Provider store={store}>
-      <NavigationContainer>{routing}</NavigationContainer>
+      <Main />
     </Provider>
   );
 }

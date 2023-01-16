@@ -54,7 +54,6 @@ export const LoginScreen = ({ navigation }) => {
   const handleSubmit = () => {
     setState(initialState);
     dispatch(authSignInUser(state));
-    navigation.navigate("Home");
   };
   const toggleHidePassword = () => {
     setHidePassword((prevState) => !prevState);
