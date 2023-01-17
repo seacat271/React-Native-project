@@ -20,6 +20,8 @@ import {
   SubmitButton,
 } from "../../components/Button";
 import { DescribeInput } from "../../components/Input";
+import { storage } from "../../../firebase/config";
+import { ref, uploadBytes } from "firebase/storage";
 
 const initialState = {
   name: "",
@@ -61,7 +63,6 @@ export const CreatePostsScreen = ({ navigation }) => {
   const takeData = async () => {
     const snap = await camera.takePictureAsync();
     const location = await Location.getCurrentPositionAsync();
-    console.log("create", photoDescription);
     setPhotoCoord({
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -71,6 +72,13 @@ export const CreatePostsScreen = ({ navigation }) => {
   const changePhoto = () => {
     setPhoto(null);
     setPhotoCoord(null);
+  };
+
+  const uploadPhotoToServer = async () => {
+    const file = await fetch(photo);
+    const uniquePostId = uuid();
+    const storageRef = ref(storage, `postImage/${uniquePostId}`);
+    uploadBytes(storageRef, file);
   };
 
   if (!permission || !status) {
@@ -159,6 +167,8 @@ export const CreatePostsScreen = ({ navigation }) => {
             <SubmitButton
               title={"Опубликовать"}
               handleSubmit={() => {
+                console.log("create", photo);
+                uploadPhotoToServer();
                 navigation.navigate("Default", {
                   photo,
                   location: photoCoord,
