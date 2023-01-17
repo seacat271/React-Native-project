@@ -7,6 +7,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Dimensions,
+  Alert,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { useState, useEffect } from "react";
@@ -21,7 +22,7 @@ import {
 } from "../../components/Button";
 import { DescribeInput } from "../../components/Input";
 import { storage } from "../../../firebase/config";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const initialState = {
   name: "",
@@ -75,10 +76,19 @@ export const CreatePostsScreen = ({ navigation }) => {
   };
 
   const uploadPhotoToServer = async () => {
-    const file = await fetch(photo);
-    const uniquePostId = uuid();
-    const storageRef = ref(storage, `postImage/${uniquePostId}`);
-    uploadBytes(storageRef, file);
+    try {
+      const response = await fetch(photo);
+      const file = await response.blob();
+      const uniquePostId = uuid();
+      const storageRef = ref(storage, `postImage/${uniquePostId}`);
+      console.log("storageRef", storageRef);
+      const imageRef = await uploadBytes(storageRef, file);
+      console.log("imageRef", imageRef);
+      const processedPhoto = await getDownloadURL(storageRef);
+      console.log("processedPhoto", processedPhoto);
+    } catch (error) {
+      Alert.alert(error.message);
+    }
   };
 
   if (!permission || !status) {
