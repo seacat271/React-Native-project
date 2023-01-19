@@ -9,6 +9,7 @@ import {
   Dimensions,
   Alert,
 } from "react-native";
+import { useSelector } from "react-redux";
 import { Camera } from "expo-camera";
 import { useState, useEffect } from "react";
 import * as Progress from "react-native-progress";
@@ -21,8 +22,9 @@ import {
   SubmitButton,
 } from "../../components/Button";
 import { DescribeInput } from "../../components/Input";
-import { storage } from "../../../firebase/config";
+import { dataBase, storage } from "../../../firebase/config";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const initialState = {
   name: "",
@@ -54,6 +56,7 @@ export const CreatePostsScreen = ({ navigation }) => {
       ratioListener.remove();
     };
   }, []);
+  const { userId, login } = useSelector((state) => state.auth);
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [photoCoord, setPhotoCoord] = useState(null);
@@ -81,16 +84,48 @@ export const CreatePostsScreen = ({ navigation }) => {
       const file = await response.blob();
       const uniquePostId = uuid();
       const storageRef = ref(storage, `postImage/${uniquePostId}`);
-      console.log("storageRef", storageRef);
-      const imageRef = await uploadBytes(storageRef, file);
-      console.log("imageRef", imageRef);
-      const processedPhoto = await getDownloadURL(storageRef);
-      console.log("processedPhoto", processedPhoto);
+      await uploadBytes(storageRef, file);
+      return await getDownloadURL(storageRef);
     } catch (error) {
       Alert.alert(error.message);
     }
   };
 
+  const uploadPostToServer = async () => {
+    const photoUrl = await uploadPhotoToServer();
+    await addDoc(collection(dataBase, "posts"), {
+      userId: userId,
+      login: login,
+      photo: photoUrl,
+      location: photoCoord,
+      name: photoDescription.name,
+      locationName: photoDescription.locationName,
+    });
+    // const newDocRef = doc(collection(dataBase, "posts"));
+    // await setDoc(newDocRef, {
+    //   userId: userId,
+    //   login: login,
+    //   photo: photoUrl,
+    //   location: photoCoord,
+    //   name: photoDescription.name,
+    //   locationName: photoDescription.locationName,
+    // });
+
+    // console.log("docRef", docRef);
+    // return docRef;
+  };
+  const handleSubmit = () => {
+    uploadPostToServer();
+    navigation.navigate("Default", {
+      photo,
+      location: photoCoord,
+      name: photoDescription.name,
+      locationName: photoDescription.locationName,
+      id: uuid(),
+    });
+    changePhoto();
+    setPhotoDescription(initialState);
+  };
   if (!permission || !status) {
     return (
       <View>
@@ -176,19 +211,7 @@ export const CreatePostsScreen = ({ navigation }) => {
           >
             <SubmitButton
               title={"Опубликовать"}
-              handleSubmit={() => {
-                console.log("create", photo);
-                uploadPhotoToServer();
-                navigation.navigate("Default", {
-                  photo,
-                  location: photoCoord,
-                  name: photoDescription.name,
-                  locationName: photoDescription.locationName,
-                  id: uuid(),
-                });
-                changePhoto();
-                setPhotoDescription(initialState);
-              }}
+              handleSubmit={handleSubmit}
               style={{ marginTop: 16 }}
               disabled={!photo}
             />

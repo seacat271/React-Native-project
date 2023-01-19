@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { Text, View, FlatList, Image, StyleSheet } from "react-native";
+import { dataBase } from "../../../../firebase/config";
 import { IconButton } from "../../../components/Button";
+import { addDoc, collection, doc, getDocs } from "firebase/firestore";
 export const DefaultScreen = ({ navigation, route }) => {
-  console.log("default", route.params);
   const [posts, setPosts] = useState([]);
-
+  const getAllPosts = async () => {
+    const querySnapshot = await getDocs(collection(dataBase, "posts"));
+    querySnapshot.forEach((doc) => {
+      setPosts((prevState) => [...prevState, { id: doc.id, ...doc.data() }]);
+    });
+  };
   useEffect(() => {
-    if (!route.params) return;
-    setPosts((prevState) => [...prevState, route.params]);
-  }, [route.params]);
+    getAllPosts();
+  }, []);
 
   return (
     <View style={styles.container}>
