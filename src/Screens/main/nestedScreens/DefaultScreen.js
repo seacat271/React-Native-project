@@ -2,19 +2,17 @@ import { useState, useEffect } from "react";
 import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import { dataBase } from "../../../../firebase/config";
 import { IconButton } from "../../../components/Button";
-import { addDoc, collection, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, doc } from "firebase/firestore";
 export const DefaultScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
+
   const getAllPosts = async () => {
     const querySnapshot = await getDocs(collection(dataBase, "posts"));
-    querySnapshot.forEach((doc) => {
-      setPosts((prevState) => [...prevState, { id: doc.id, ...doc.data() }]);
-    });
+    setPosts(querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
   };
   useEffect(() => {
     getAllPosts();
   }, []);
-
   return (
     <View style={styles.container}>
       <View
@@ -53,7 +51,7 @@ export const DefaultScreen = ({ navigation, route }) => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <View>
             <View style={styles.cameraThumb}>
               <Image source={{ uri: item.photo }} style={styles.camera} />
