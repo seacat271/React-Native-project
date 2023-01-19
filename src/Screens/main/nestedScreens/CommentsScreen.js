@@ -1,3 +1,13 @@
+import { v4 as uuid } from "uuid";
+import {
+  where,
+  doc,
+  getDoc,
+  setDoc,
+  getDocs,
+  collection,
+  query,
+} from "firebase/firestore";
 import { useState, useEffect, useRef } from "react";
 import {
   Text,
@@ -10,45 +20,19 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
+import { dataBase } from "../../../../firebase/config";
 import { IconButton } from "../../../components/Button";
 import { PostInput } from "../../../components/Input/PostInput";
 import { PostCard } from "../../../components/PostCard/PostCard";
-const initialComments = [
-  {
-    id: 2,
-    text: "dfkvjfvkdfsv",
-    timestamp: 9487346907,
-    owner: {
-      userId: 1,
-      avatar: require("../../../../assets/images/user.webp"),
-    },
-  },
-  {
-    id: 5,
-    text: "dfkvjfvkdfsvvcxngfngxf gf ngfngfndfgfxn",
-    timestamp: 9487346907,
-    owner: {
-      userId: 3,
-      avatar: require("../../../../assets/images/user.webp"),
-    },
-  },
-  {
-    id: 8,
-    text: "fgf",
-    timestamp: 9487346907,
-    owner: {
-      userId: 1,
-      avatar: require("../../../../assets/images/user.webp"),
-    },
-  },
-];
+
 const initialState = {
   text: "",
 };
 export const CommentsScreen = ({ route }) => {
+  const { login, userId } = useSelector((state) => state.auth);
   const [isKeyboardShow, setIsKeyboardShow] = useState(false);
-  const [comments, setComments] = useState(initialComments);
+  const [comments, setComments] = useState([]);
   const [text, setText] = useState(initialState);
   const initialRatio =
     Dimensions.get("window").width / Dimensions.get("window").height;
@@ -61,6 +45,7 @@ export const CommentsScreen = ({ route }) => {
   useEffect(() => {
     if (!route.params) return;
     setPost(route.params);
+    getAllPosts();
     const ratioListener = Dimensions.addEventListener("change", onChangeRatio);
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -78,21 +63,23 @@ export const CommentsScreen = ({ route }) => {
   }, []);
 
   const flatList = useRef(null);
-  const addComments = () => {
-    setComments((prevState) => [
-      ...prevState,
-      {
-        id: Date.now(),
-        text: text.text,
-        timestamp: Date.now(),
-        owner: {
-          userId: 5,
-          avatar: require("../../../../assets/images/user.webp"),
-        },
-      },
-    ]);
+  const addComments = async () => {
+    await setDoc(doc(dataBase, "posts", post.id, "comments", uuid()), {
+      comment: text.text,
+      userId: userId,
+      login: login,
+      timestamp: Date.now(),
+      avatar: require("../../../../assets/images/user.webp"),
+    });
     setText(initialState);
   };
+  const getAllPosts = async () => {
+    const querySnapshot = await getDocs(
+      collection(dataBase, "posts", `${post.id}`, "comments")
+    );
+    setComments(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
+  };
+  console.log(comments);
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>

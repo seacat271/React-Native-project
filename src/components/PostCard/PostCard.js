@@ -1,27 +1,32 @@
 import { View, Text, Image, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 export const PostCard = ({ item }) => {
-  const { userId } = item.owner;
+  const { userId: id } = useSelector((state) => state.auth);
+  const { userId, avatar, comment, timestamp } = item;
   return (
     <View
       style={{
         ...styles.container,
-        flexDirection: userId === 5 ? "row-reverse" : "row",
+        flexDirection: userId === id ? "row-reverse" : "row",
       }}
     >
       <Image
-        source={item.owner.avatar}
+        source={avatar}
         style={{
           ...styles.avatar,
-          marginRight: userId === 5 ? 0 : 16,
-          marginLeft: userId === 5 ? 16 : 0,
+          marginRight: userId === id ? 0 : 16,
+          marginLeft: userId === id ? 16 : 0,
         }}
       />
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{item.text}</Text>
+        <Text style={styles.text}>{comment}</Text>
         <Text
-          style={{ ...styles.time, textAlign: userId === 5 ? "left" : "right" }}
+          style={{
+            ...styles.time,
+            textAlign: userId === id ? "left" : "right",
+          }}
         >
-          {item.timestamp}
+          {timestamp}
         </Text>
       </View>
     </View>

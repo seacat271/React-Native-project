@@ -12,7 +12,6 @@ const authSignInUser =
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
       const { uid, displayName } = user;
-      console.log(displayName);
       dispatch(
         authSlice.actions.updateUserProfile({ userId: uid, login: displayName })
       );
@@ -30,7 +29,6 @@ const authSignUpUser =
         displayName: login,
       });
       const { displayName, uid } = auth.currentUser;
-      console.log(displayName);
       dispatch(
         authSlice.actions.updateUserProfile({ userId: uid, login: displayName })
       );

@@ -13,6 +13,7 @@ export const DefaultScreen = ({ navigation, route }) => {
   useEffect(() => {
     getAllPosts();
   }, []);
+  console.log(posts);
   return (
     <View style={styles.container}>
       <View
@@ -91,8 +92,9 @@ export const DefaultScreen = ({ navigation, route }) => {
                     color={"#BDBDBD"}
                     onPressFunction={() =>
                       navigation.navigate("Comments", {
-                        id: index.toString(),
+                        id: item.id,
                         uri: item.photo,
+                        avatar: item.avatar,
                       })
                     }
                   />
