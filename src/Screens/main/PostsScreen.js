@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Text, View, FlatList, Image } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton } from "../../components/Button";
 import { createStackNavigator } from "@react-navigation/stack";
 import { DefaultScreen } from "./nestedScreens/DefaultScreen";

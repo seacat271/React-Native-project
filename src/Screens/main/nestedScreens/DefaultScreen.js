@@ -1,22 +1,31 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import { dataBase } from "../../../../firebase/config";
 import { IconButton } from "../../../components/Button";
-import { addDoc, collection, getDocs, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  doc,
+  query,
+  onSnapshot,
+} from "firebase/firestore";
+
 export const DefaultScreen = ({ navigation, route }) => {
+  const { login } = useSelector((state) => state.auth);
   const [posts, setPosts] = useState([]);
 
   const getAllPosts = async () => {
-    const querySnapshot = await query(collection(dataBase, "posts"));
+    const querySnapshot = query(collection(dataBase, "posts"));
 
-    onSnapShot(querySnapshot, (data) =>
+    onSnapshot(querySnapshot, (data) =>
       setPosts(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
     );
   };
   useEffect(() => {
     getAllPosts();
   }, []);
-  console.log(posts);
   return (
     <View style={styles.container}>
       <View
@@ -39,7 +48,7 @@ export const DefaultScreen = ({ navigation, route }) => {
               fontFamily: "Roboto-Bold",
             }}
           >
-            UserName
+            {login}
           </Text>
           <Text
             style={{

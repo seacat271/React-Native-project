@@ -10,9 +10,9 @@ import {
   ImageBackground,
   Dimensions,
 } from "react-native";
+import { IconButton } from "../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { Feather } from "@expo/vector-icons";
-// import { signOutUser } from '../redux/auth/authOperations';
 import {
   collection,
   getCountFromServer,
@@ -33,15 +33,16 @@ export function ProfileScreen({ navigation }) {
     getUserPosts();
   }, []);
   const sigOut = () => {
+    console.log("ok");
     dispatch(authSignOutUser());
   };
 
   const getUserPosts = async () => {
-    const q = query(
+    const querySnapshot = query(
       collection(dataBase, "posts"),
       where("userId", "==", userId)
     );
-    onSnapshot(q, (data) =>
+    onSnapshot(querySnapshot, (data) =>
       setUserPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
     );
   };
@@ -59,17 +60,17 @@ export function ProfileScreen({ navigation }) {
               source={require("../../../assets/images/user.webp")}
               style={styles.avatarImage}
             />
-            <IconButton
-              iconName={"log-out"}
-              color={"#BDBDBD"}
-              size={24}
-              onPressFunction={sigOut}
-            />
           </View>
-
+          <IconButton
+            style={styles.logout}
+            iconName={"log-out"}
+            color={"#BDBDBD"}
+            size={24}
+            onPressFunction={sigOut}
+          />
           <View>
             <View>
-              <Text style={styles.textlogin}>{login}</Text>
+              <Text style={styles.textLogin}>{login}</Text>
             </View>
 
             <FlatList
@@ -137,9 +138,7 @@ export function ProfileScreen({ navigation }) {
                           alignItems: "center",
                           justifyContent: "flex-start",
                         }}
-                        onPress={() => {
-                          addLike(item);
-                        }}
+                        onPress={() => {}}
                       >
                         <Feather
                           name="thumbs-up"
@@ -181,7 +180,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "flex-start",
   },
-  textlogin: {
+  textLogin: {
     fontSize: 30,
     marginBottom: 15,
     textAlign: "center",
@@ -198,6 +197,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+    position: "relative",
+  },
+  logout: {
+    position: "absolute",
+    top: 22,
+    right: 16,
   },
   avatarBox: {
     position: "absolute",

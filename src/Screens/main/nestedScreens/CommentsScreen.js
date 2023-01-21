@@ -75,15 +75,12 @@ export const CommentsScreen = ({ route }) => {
     setText(initialState);
   };
   const getAllPosts = async () => {
-    const querySnapshot = await getDocs(
-      collection(dataBase, "posts", `${post.id}`, "comments")
-    );
+    const querySnapshot = collection(dataBase, "posts", post.id, "comments");
 
     onSnapshot(querySnapshot, (data) =>
       setComments(data.docs.map((doc) => ({ ...doc.data() })))
     );
   };
-  console.log(comments);
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
