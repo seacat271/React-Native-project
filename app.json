@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "React-Native-project",
-    "slug": "React-Native-project",
+    "slug": "rn-social",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -26,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2ad6a90d-80aa-4b7c-bb32-a2591a0e9fb2"
+      }
+    },
+    "owner": "kirillll"
   }
 }
