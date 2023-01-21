@@ -21,6 +21,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { authSignOutUser } from "../../../redux/auth/authOperations";
 import { dataBase } from "../../../firebase/config";
 
 export function ProfileScreen({ navigation }) {
@@ -31,6 +32,9 @@ export function ProfileScreen({ navigation }) {
   useEffect(() => {
     getUserPosts();
   }, []);
+  const sigOut = () => {
+    dispatch(authSignOutUser());
+  };
 
   const getUserPosts = async () => {
     const q = query(
@@ -42,10 +46,6 @@ export function ProfileScreen({ navigation }) {
     );
   };
 
-  // const signOut = () => {
-  //   dispatch(signOutUser());
-  // };
-  console.log(userPosts);
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -59,9 +59,12 @@ export function ProfileScreen({ navigation }) {
               source={require("../../../assets/images/user.webp")}
               style={styles.avatarImage}
             />
-            {/* <TouchableOpacity style={styles.addAvatarButton} onPress={pickImage}>
-              <Image source={addButton} />
-            </TouchableOpacity> */}
+            <IconButton
+              iconName={"log-out"}
+              color={"#BDBDBD"}
+              size={24}
+              onPressFunction={sigOut}
+            />
           </View>
 
           <View>

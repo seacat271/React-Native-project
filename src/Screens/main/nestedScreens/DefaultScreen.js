@@ -7,8 +7,11 @@ export const DefaultScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
 
   const getAllPosts = async () => {
-    const querySnapshot = await getDocs(collection(dataBase, "posts"));
-    setPosts(querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    const querySnapshot = await query(collection(dataBase, "posts"));
+
+    onSnapShot(querySnapshot, (data) =>
+      setPosts(data.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+    );
   };
   useEffect(() => {
     getAllPosts();

@@ -78,7 +78,10 @@ export const CommentsScreen = ({ route }) => {
     const querySnapshot = await getDocs(
       collection(dataBase, "posts", `${post.id}`, "comments")
     );
-    setComments(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
+
+    onSnapshot(querySnapshot, (data) =>
+      setComments(data.docs.map((doc) => ({ ...doc.data() })))
+    );
   };
   console.log(comments);
   return (
