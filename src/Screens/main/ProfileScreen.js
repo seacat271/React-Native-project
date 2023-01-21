@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Button,
   FlatList,
   Image,
   TouchableOpacity,
@@ -13,14 +12,7 @@ import {
 import { IconButton } from "../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { Feather } from "@expo/vector-icons";
-import {
-  collection,
-  getCountFromServer,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { authSignOutUser } from "../../../redux/auth/authOperations";
 import { dataBase } from "../../../firebase/config";
 

@@ -3,14 +3,7 @@ import { useSelector } from "react-redux";
 import { Text, View, FlatList, Image, StyleSheet } from "react-native";
 import { dataBase } from "../../../../firebase/config";
 import { IconButton } from "../../../components/Button";
-import {
-  addDoc,
-  collection,
-  getDocs,
-  doc,
-  query,
-  onSnapshot,
-} from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 
 export const DefaultScreen = ({ navigation, route }) => {
   const { login } = useSelector((state) => state.auth);
